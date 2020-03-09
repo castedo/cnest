@@ -1,0 +1,39 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+  echo "Usage: $0 {container_pattern} [command]"
+  exit 1
+fi
+
+CONTAINER="$1"
+shift
+
+if command -v guess-container >/dev/null 2>&1; then
+  # if guess-container can be run, then guess full container name
+  CONTAINER=$(guess-container $CONTAINER)
+  if [[ -z "$CONTAINER" ]]; then
+    echo "Can not find container matching: $1"
+    exit 1
+  fi
+fi
+
+COMMAND="$@"
+if [[ -z "$COMMAND" ]]; then
+  # check if cnest-entry exists by trying to copy from container to stdout
+  if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
+    COMMAND=/usr/bin/cnest-entry
+  else
+    COMMAND="/bin/bash --login"
+  fi
+fi
+
+podman start $CONTAINER
+podman exec -it \
+  --user $USER \
+  -e TERM \
+  -e DISPLAY \
+  --detach-keys='ctrl-b,d' \
+  -e OSVIRTINSTALIAS=$CONTAINER \
+  $CONTAINER \
+  $COMMAND
+
