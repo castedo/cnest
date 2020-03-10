@@ -8,7 +8,7 @@ pattern = sys.argv[1]
 if 0 == subprocess.call(['podman', 'container', 'exists', pattern]):
     print(pattern)
 else:
-    cmd = ['podman', 'ps', '--format={{.Names}}',
+    cmd = ['podman', 'ps', '--all', '--format={{.Names}}',
            '--filter', "name={}-\d+?".format(pattern)]
     out = subprocess.check_output(cmd).decode("utf-8")
     max_num = None

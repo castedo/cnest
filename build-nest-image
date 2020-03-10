@@ -1,0 +1,30 @@
+#!/bin/bash
+set -o errexit
+
+if [[ -z "$2" ]]; then
+  THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
+  echo "Usage: $THIS_SCRIPT base_image nest_name [extra_groups]"
+  exit 1
+fi
+
+BASE_IMAGE=$1
+shift
+NEST_IMAGE=$1
+shift
+EXTRA_GROUPS="$@"
+
+if podman image exists "$NEST_IMAGE"; then
+  echo "Skipping build of existing image: $NEST_IMAGE"
+  exit
+fi
+
+CUID=$(id -u $USER)
+TMP=$(buildah from "$BASE_IMAGE")
+buildah run $TMP -- useradd --create-home --user-group --uid $CUID $USER
+if [[ -n "$EXTRA_GROUPS" ]]; then
+  buildah run $TMP -- usermod -a -G $EXTRA_GROUPS $USER
+fi
+buildah config --user $USER --workingdir /home/$USER $TMP
+buildah commit $TMP "$NEST_IMAGE"
+buildah rm $TMP
+

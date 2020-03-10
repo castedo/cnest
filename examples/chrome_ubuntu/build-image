@@ -1,0 +1,8 @@
+#!/bin/bash
+set -o errexit
+
+REPOSITORY=docker.io/castedo/nests
+NEST=chromed-3
+
+buildah bud --layers -t $REPOSITORY:$NEST .
+

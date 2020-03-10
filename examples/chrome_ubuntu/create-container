@@ -1,0 +1,18 @@
+#!/bin/bash
+set -o errexit
+
+REPOSITORY=docker.io/castedo/nests
+NEST=chromed-3
+HOME=$(eval echo ~$USER)
+
+../../build-nest-image $REPOSITORY:$NEST localnests:$NEST audio,video
+
+../../create-nest localnests:$NEST $NEST \
+  --hostname chromed-$HOSTNAME \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /dev/shm:/dev/shm \
+  -v /etc/machine-id:/etc/machine-id \
+  --device /dev/snd \
+  --device /dev/dri \
+  -v $HOME/Downloads:/home/$USER/Downloads
+
