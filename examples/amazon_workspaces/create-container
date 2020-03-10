@@ -1,0 +1,16 @@
+#!/bin/bash
+set -o errexit
+
+REPOSITORY=docker.io/castedo/nests
+NEST=amazon-1
+HOME=$(eval echo ~$USER)
+
+../../build-nest-image $REPOSITORY:$NEST localnests:$NEST
+
+../../create-nest localnests:$NEST $NEST \
+  --network host \
+  --hostname $HOSTNAME \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  --device /dev/snd \
+  --device /dev/dri
+

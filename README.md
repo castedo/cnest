@@ -50,3 +50,7 @@ But the files in this cnest repository:
 * are decoupled so that they can be used, or not used, independently
 * are simply enough to merely serve as code examples, if not used as-is
 
+Also kind of similar is [podbox](https://github.com/DimaZirix/podbox)
+"Container sandbox for GUI applications" with some nice features for working
+with contained GUI applications.
+
