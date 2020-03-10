@@ -34,9 +34,10 @@ Container Creation
 There are lots of ways to create containers and `cnest` can work fine with them
 as long as a user account has been created in the container.
 
-The two scripts (build-nest-image)[build-nest-image] and (create-nest)[create-nest]
-can be used to create custom "nest" containers. For an example see
-(examples)[examples/chrome_ubuntu/create-container].
+The two scripts [build-nest-image](build-nest-image) and [create-nest](create-nest)
+can be used to create custom "nest" containers. For an example see this
+[create-container](examples/chrome_ubuntu/create-container) script for containerized
+Google chrome on ubuntu.
 
 
 Similar Tools
