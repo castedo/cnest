@@ -15,6 +15,7 @@ EXTRA_OPTIONS="$@"
 
 podman create \
   --userns=keep-id \
+  --user $USER \
   --security-opt label=disable \
   --pid host \
   --name "$NAME" \

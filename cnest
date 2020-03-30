@@ -34,7 +34,7 @@ podman exec -it \
   -e TERM \
   -e DISPLAY \
   --detach-keys='ctrl-b,d' \
-  -e OSVIRTINSTALIAS=$CONTAINER \
+  -e OSVIRTALIAS=$CONTAINER \
   $CONTAINER \
   $COMMAND
 
