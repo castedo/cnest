@@ -29,8 +29,9 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 podman start $CONTAINER
+CUSER=$(podman inspect $CONTAINER --format {{.Config.User}})
 podman exec -it \
-  --user $USER \
+  --user $CUSER \
   -e LANG \
   -e TERM \
   -e DISPLAY \
