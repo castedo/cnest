@@ -2,7 +2,7 @@
 set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
-NEST=chromer-7
+NEST=chromer-8
 HOME=$(eval echo ~$USER)
 
 ../../build-nest-image $REPOSITORY:$NEST localnests:$NEST audio,video
