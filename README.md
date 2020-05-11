@@ -35,9 +35,18 @@ There are lots of ways to create containers and `cnest` can work fine with them
 as long as a user account has been created in the container.
 
 The two scripts [build-nest-image](build-nest-image) and [create-nest](create-nest)
-can be used to create custom "nest" containers. For an example see this
-[create-container](examples/chrome_ubuntu/create-container) script for containerized
-Google chrome on ubuntu.
+can be used to create custom "nest" containers. See [examples](examples/) for usage.
+
+
+Examples
+--------
+
+[Example Dockerfile, image building, and container creating scripts](examples/)
+for containerizing:
+
+* [Google Chrome on Fedora (working with PulseAudio)](examples/chrome_fedora)
+* [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
+* [Amazon Workspaces Client](examples/amazon_workspaces/)
 
 
 Similar Tools

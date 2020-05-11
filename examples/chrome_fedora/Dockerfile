@@ -1,15 +1,13 @@
-FROM docker.io/fedora:32
+FROM registry.fedoraproject.org/fedora:31
 
 RUN yum -y update
 
-RUN yum -y install icedtea-web
+RUN yum -y install glx-utils mesa-dri-drivers
+
+RUN yum -y install alsa-plugins-pulseaudio
 
 COPY google-chrome-81.0.4044.138-x86_64.rpm google-chrome.rpm
 RUN yum -y install google-chrome.rpm
-
-RUN yum -y install libglvnd-glx
-
-RUN yum -y install mesa-dri-drivers
 
 COPY cnest-entry /usr/bin
 

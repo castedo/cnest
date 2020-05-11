@@ -2,7 +2,7 @@
 set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
-NEST=chromer-8
+NEST=chromer-9
 
 buildah bud --layers -t $REPOSITORY:$NEST .
 
