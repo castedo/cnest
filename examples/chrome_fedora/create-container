@@ -2,7 +2,7 @@
 set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
-NEST=chromer-9
+NEST=chromer-10
 CUSER=$USER
 if [[ $CUSER == "root" ]]; then
   CUSER=$1
