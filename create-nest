@@ -1,9 +1,9 @@
 #!/bin/bash
 set -o errexit
 
-if [[ -z "$2" ]]; then
+if [[ -z "$3" ]]; then
   THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
-  echo "Usage: $THIS_SCRIPT image container_name [extra_podman_options]"
+  echo "Usage: $THIS_SCRIPT image container_name user [extra_podman_options]"
   exit 1
 fi
 
@@ -11,12 +11,13 @@ IMAGE="$1"
 shift
 NAME="$1"
 shift
+CUSER="$1"
+shift
 EXTRA_OPTIONS="$@"
 
 podman create \
   --userns=keep-id \
-  --user $USER \
-  --security-opt label=disable \
+  --user $CUSER \
   --pid host \
   --name "$NAME" \
   $EXTRA_OPTIONS \

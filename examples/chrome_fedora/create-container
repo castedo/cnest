@@ -3,27 +3,32 @@ set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
 NEST=chromer-9
-HOME=$(eval echo ~$USER)
+CUSER=$USER
+if [[ $CUSER == "root" ]]; then
+  CUSER=$1
+fi
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST audio,video,render
+../../build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER" audio,video,render
 
+CUID=$(id -u $CUSER)
+HOME=$(eval echo ~$CUSER)
+DBUS_SOCKET=/run/user/$CUID/bus
 PULSE_SOCKET=/run/pulse/native
 PULSE_COOKIE=/run/pulse/cookie
 
-../../create-nest localnests:$NEST $NEST \
+../../create-nest localnests:$NEST $NEST "$CUSER" \
   --hostname chromer-$HOSTNAME \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev/shm:/dev/shm \
   -v /etc/machine-id:/etc/machine-id \
   -v /var/lib/dbus:/var/lib/dbus \
   -v /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
-  -v /run/user/$UID/bus:/run/user/$UID/bus \
-  --env DBUS_SESSION_BUS_ADDRESS \
-  -v /run/user/$UID/pulse/native:$PULSE_SOCKET \
+  -v $DBUS_SOCKET:$DBUS_SOCKET \
+  --env DBUS_SESSION_BUS_ADDRESS=unix:path=$DBUS_SOCKET \
+  -v /run/user/$CUID/pulse/native:$PULSE_SOCKET \
   -v $HOME/.config/pulse/cookie:$PULSE_COOKIE \
   --env PULSE_SERVER=unix:$PULSE_SOCKET \
   --env PULSE_COOKIE=$PULSE_COOKIE \
-  --device /dev/snd \
   --device /dev/dri \
-  -v $HOME/Downloads:/home/$USER/Downloads
+  -v $HOME/Downloads:/home/$CUSER/Downloads
 
