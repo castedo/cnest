@@ -47,6 +47,7 @@ for containerizing:
 * [Google Chrome on Fedora (working with PulseAudio)](examples/chrome_fedora)
 * [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
 * [Amazon Workspaces Client](examples/amazon_workspaces/)
+* [PulseAudio Test](examples/pulseaudio-test/)
 
 
 Similar Tools
