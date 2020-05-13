@@ -44,10 +44,11 @@ Examples
 [Example Dockerfile, image building, and container creating scripts](examples/)
 for containerizing:
 
-* [Google Chrome on Fedora (working with PulseAudio)](examples/chrome_fedora)
+* [PulseAudio Test](examples/pulseaudio-test/)
+* [Chromium on RHEL/Fedora (using PulsoAudio)](examples/chromium)
+* [Google Chrome on Fedora (using PulseAudio)](examples/chrome_fedora)
 * [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
 * [Amazon Workspaces Client](examples/amazon_workspaces/)
-* [PulseAudio Test](examples/pulseaudio-test/)
 
 
 Similar Tools
