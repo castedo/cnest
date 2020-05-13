@@ -1,0 +1,26 @@
+#!/bin/bash
+set -o errexit
+
+REPOSITORY=docker.io/castedo/nests
+NEST=cheese-1
+CUSER=$USER
+if [[ $CUSER == "root" ]]; then
+  CUSER=$1
+fi
+
+../../build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER" video
+
+CUID=$(id -u $CUSER)
+DBUS_SOCKET=/run/user/$CUID/bus
+XDG_RUNTIME_DIR=/tmp
+WAYLAND_DISPLAY=wayland-0
+
+../../create-nest localnests:$NEST $NEST "$CUSER" \
+  --device /dev/video0 \
+  -v /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+  -v $DBUS_SOCKET:$DBUS_SOCKET \
+  --env DBUS_SESSION_BUS_ADDRESS=unix:path=$DBUS_SOCKET \
+  -v /run/user/$CUID/$WAYLAND_DISPLAY:$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY \
+  --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+  --env XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+

@@ -45,7 +45,8 @@ Examples
 for containerizing:
 
 * [PulseAudio Test](examples/pulseaudio-test/)
-* [Chromium on RHEL/Fedora (using PulsoAudio)](examples/chromium)
+* [Webcam and non-X11 Wayland GNOME Cheese](examples/cheese_wayland)
+* [Chromium on RHEL/Fedora (using PulseAudio and WebCam)](examples/chromium)
 * [Google Chrome on Fedora (using PulseAudio)](examples/chrome_fedora)
 * [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
 * [Amazon Workspaces Client](examples/amazon_workspaces/)
