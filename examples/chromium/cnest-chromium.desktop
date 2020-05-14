@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Containerized Chromium
+Exec=/usr/bin/cnest chromium
+Icon=chromium-browser
+Terminal=false
+Categories=Network;WebBrowser;
+Keywords=web;browser;internet;
+Version=1.0
+
+X-Desktop-File-Install-Version=0.23
