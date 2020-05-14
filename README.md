@@ -37,6 +37,12 @@ as long as a user account has been created in the container.
 The two scripts [build-nest-image](build-nest-image) and [create-nest](create-nest)
 can be used to create custom "nest" containers. See [examples](examples/) for usage.
 
+Desktop Menu Item/Icon Installation
+-----------------------------------
+
+For adding desktop menu item/icons, see the
+[install-desktop-menu script in the Chromium Example](examples/chromium/install-desktop-menu).
+
 
 Examples
 --------
