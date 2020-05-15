@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Containerized Chromium
-Exec=/usr/bin/cnest chromium
+Name=Chromium Containerized
+Exec=/usr/bin/cnest chromium /usr/bin/chromium-browser --no-sandbox %U
 Icon=chromium-browser
 Terminal=false
 Categories=Network;WebBrowser;
