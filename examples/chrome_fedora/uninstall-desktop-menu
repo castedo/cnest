@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o errexit
+
+xdg-desktop-menu uninstall cnest-chrome.desktop
+xdg-icon-resource uninstall --size 24 google-chrome.png
+
