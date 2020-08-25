@@ -29,14 +29,13 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 podman start $CONTAINER
-CUSER=$(podman inspect $CONTAINER --format {{.Config.User}})
 podman exec -it \
-  --user $CUSER \
   -e LANG \
   -e TERM \
   -e DISPLAY \
-  --detach-keys='ctrl-b,d' \
+  --detach-keys="" \
   -e OSVIRTALIAS=$CONTAINER \
+  -e debian_chroot=$CONTAINER \
   $CONTAINER \
   $COMMAND
 
