@@ -5,6 +5,8 @@ know the contained **environment** from the command line prompt.
 You might prefer to see the actual container name **or** maybe just an alias
 for the container's image.
 
+The [cnest](../cnest) script passes both environment variables described below
+(for Debian and Red Hat based distros).
 
 ## On Debian based distros
 
