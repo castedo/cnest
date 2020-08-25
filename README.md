@@ -74,19 +74,31 @@ home_mounts:
     - .sudo_as_admin_successful
 ```
 
-As an example, if you run `create-homey-nest ubuntu-20.04-mspdev` then a "nest"
-container called `ubuntu-20.04-mspdev` based on the image
+As an example, if you run
+```
+create-homey-nest ubuntu-20.04-mspdev
+```
+then a "nest" container called `ubuntu-20.04-mspdev` based on the image
 `docker.io/castedo/tskit-nests:ubuntu-20.04-mspdev` is created and customized
 for the current user. As part of the customization, the `home_mounts` will be
-mounted inside the container. Then running `cnest ubuntu-20.04-mspdev` will
-enter the "nest" as the local non-root user with an isolated home directory
+mounted inside the container. Then running
+```
+cnest ubuntu-20.04-mspdev
+```
+will enter the "nest" as the local non-root user with an isolated home directory
 of only `home_mounts` shared outside the container.
 
 #### Using a shorter container name
 
 In this early version, the hacky way to achieve a shorter container name is
-to do `podman tag localnests:old_long_name localnests:new_short_name` and then
-run `create-homey-nest new_short_name`.
+to do
+```
+podman tag localnests:old_long_name localnests:new_short_name
+```
+and then run
+```
+create-homey-nest new_short_name
+```
 
 
 Desktop Menu Item/Icon Installation
