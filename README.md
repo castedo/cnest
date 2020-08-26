@@ -136,3 +136,6 @@ Also kind of similar is [podbox](https://github.com/DimaZirix/podbox)
 "Container sandbox for GUI applications" with some nice features for working
 with contained GUI applications.
 
+Before attemping to containerize a GUI app, check to see if a [flatpak](https://flatpak.org/)
+is available. An GUI desktop application that has already been flatpak'ed
+will probably work better and more seamlessly than implementing a new container.
