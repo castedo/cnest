@@ -9,11 +9,14 @@ DEFAULT_PREF_PATH = Path.home() / ".config/cnest/homey-nest.yaml"
 def parse_args():
     from argparse import ArgumentParser
     parser = ArgumentParser(description='Create user personalized container')
-    parser.add_argument('nest_name', help="Nest name")
-    parser.add_argument('-u', '--user', help="User (default current user)")
+    parser.add_argument('image_tag', help="Image tag")
+    parser.add_argument('-n', '--name',
+                        help="Container name (default: image tag)")
+    parser.add_argument('-u', '--user', help="User (default: current user)")
     parser.add_argument('-f', '--file', help="Preferences file")
     parser.add_argument('-b', '--base', help="Base repository")
     args = parser.parse_args()
+    args.container_name = args.name or args.image_tag
     args.user = args.user or pwd.getpwuid(os.getuid()).pw_name
     if not args.file and os.path.exists(DEFAULT_PREF_PATH):
         args.file = DEFAULT_PREF_PATH
@@ -27,7 +30,7 @@ def parse_args():
         print("Base repository not specified", file=sys.stderr)
         parser.print_help()
         sys.exit(1)
-    args.image = "localnests:" + args.nest_name
+    args.image = "localnests:" + args.image_tag
     return args
 
 def run(args, **kwargs):
@@ -42,7 +45,7 @@ def capture_output(args):
     return proc.stdout.decode("utf-8").rstrip()
 
 def build_image(args):
-    base_image = args.base + ':' + args.nest_name
+    base_image = args.base + ':' + args.image_tag
     tmp_container = capture_output([
             'buildah', '--log-level=info', 'from', base_image])
     try:
@@ -73,7 +76,7 @@ def create_container(args):
         '--network=host',
         '--hostname', socket.gethostname(),
         '--user', args.user,
-        '--name', args.nest_name] +
+        '--name', args.container_name] +
         volumes +
         [args.image, 'sleep', '+Inf'])
 
