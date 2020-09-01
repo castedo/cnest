@@ -75,6 +75,9 @@ def create_container(args):
         '--pid=host',
         '--network=host',
         '--hostname', socket.gethostname(),
+        '--privileged',
+        '--cap-add=SYS_PTRACE',
+        '--security-opt=seccomp=unconfined',
         '--user', args.user,
         '--name', args.container_name] +
         volumes +

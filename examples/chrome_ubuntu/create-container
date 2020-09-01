@@ -4,11 +4,11 @@ set -o errexit
 REPOSITORY=docker.io/castedo/nests
 NEST=chromed-3
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST
+build-nest-image $REPOSITORY:$NEST localnests:$NEST
 
 HOME=$(eval echo ~$USER)
 
-../../create-nest localnests:$NEST $NEST "$USER" \
+create-nest localnests:$NEST $NEST "$USER" \
   --hostname chromed-$HOSTNAME \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev/shm:/dev/shm \

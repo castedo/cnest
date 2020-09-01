@@ -4,7 +4,7 @@ set -o errexit
 REPOSITORY=docker.io/castedo/nests
 NEST=chromer-10
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST
+build-nest-image $REPOSITORY:$NEST localnests:$NEST
 
 CUID=$(id -u $USER)
 HOME=$(eval echo ~$USER)
@@ -12,7 +12,7 @@ DBUS_SOCKET=/run/user/$CUID/bus
 PULSE_SOCKET=/run/pulse/native
 PULSE_COOKIE=/run/pulse/cookie
 
-../../create-nest localnests:$NEST $NEST "$USER" \
+create-nest localnests:$NEST $NEST "$USER" \
   --hostname chromer-$HOSTNAME \
   --device /dev/video0 \
   -v /tmp/.X11-unix:/tmp/.X11-unix \

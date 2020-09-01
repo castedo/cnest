@@ -8,14 +8,14 @@ if [[ $CUSER == "root" ]]; then
   CUSER=$1
 fi
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER"
+build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER"
 
 CUID=$(id -u $CUSER)
 HOME=$(eval echo ~$CUSER)
 PULSE_SOCKET=/run/pulse/native
 PULSE_COOKIE=/run/pulse/cookie
 
-../../create-nest localnests:$NEST $NEST "$CUSER" \
+create-nest localnests:$NEST $NEST "$CUSER" \
   -v /run/user/$CUID/pulse/native:$PULSE_SOCKET \
   -v $HOME/.config/pulse/cookie:$PULSE_COOKIE \
   --env PULSE_SERVER=unix:$PULSE_SOCKET \

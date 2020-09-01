@@ -12,10 +12,10 @@ to be run:
 * parallel: with multiple containers that all persist and will be invoked by
   identifying a container name (pattern)
 
-The main script here is [cnest](cnest). It's just a simple script for invoking
+The main script here is [cnest](bin/cnest). It's just a simple script for invoking
 `podman exec` with some extra niceties:
 
-* if optional [guess-container](guess-container) is installed, you can type a
+* if optional [guess-container](bin/guess-container) is installed, you can type a
   container name without a version suffix (e.g. type "webdev" and it guesses
   you want a container named "webdev-5")
 * the container's command line prompt will report the container name if your
@@ -34,14 +34,14 @@ Container Creation
 There are lots of ways to create containers and `cnest` can work fine with them
 as long as a user account has been created in the container.
 
-The script [create-homey-nest](create-homey-nest) can be used to create "nest"
+The script [create-homey-nest](bin/create-homey-nest) can be used to create "nest"
 containers that are 'personalized' for the local non-root user. For more details
 see below.
 
-Two **older** scripts, [build-nest-image](build-nest-image) and [create-nest](create-nest),
+Two **older** scripts, [build-nest-image](bin/build-nest-image) and [create-nest](bin/create-nest),
 can also used to create custom "nest" containers. See [examples](examples/) for usage.
 
-### [create-homey-nest](create-homey-nest)
+### [create-homey-nest](bin/create-homey-nest)
 
 This script is merely one of many ways to create containers that can be run with `cnest`.
 Some benefits of `create-homey-nest` is that the home directory inside the
@@ -52,8 +52,8 @@ container is:
 * only shares home directory files and subdirectories if explicitly specified
   by a user preference file
 
-The script [create-homey-nest](create-homey-nest) will create a container that works well
-with [cnest](cnest). A preferences file can specify two items:
+The script [create-homey-nest](bin/create-homey-nest) will create a container that works well
+with [cnest](bin/cnest). A preferences file can specify two items:
 
 * from which container image repository to customize a local "nest" image and container
 

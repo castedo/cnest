@@ -9,9 +9,9 @@ if [[ $CUSER == "root" ]]; then
 fi
 HOME=$(eval echo ~$CUSER)
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER"
+build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER"
 
-../../create-nest localnests:$NEST $NEST "$CUSER" \
+create-nest localnests:$NEST $NEST "$CUSER" \
   --network host \
   --hostname $HOSTNAME \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
