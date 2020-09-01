@@ -3,21 +3,17 @@ set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
 NEST=chromed-3
-CUSER=$USER
-if [[ $CUSER == "root" ]]; then
-  CUSER=$1
-fi
 
-../../build-nest-image $REPOSITORY:$NEST localnests:$NEST "$CUSER" audio,video
+../../build-nest-image $REPOSITORY:$NEST localnests:$NEST
 
-HOME=$(eval echo ~$CUSER)
+HOME=$(eval echo ~$USER)
 
-../../create-nest localnests:$NEST $NEST "$CUSER" \
+../../create-nest localnests:$NEST $NEST "$USER" \
   --hostname chromed-$HOSTNAME \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev/shm:/dev/shm \
   -v /etc/machine-id:/etc/machine-id \
   --device /dev/snd \
   --device /dev/dri \
-  -v $HOME/Downloads:/home/$CUSER/Downloads
+  -v $HOME/Downloads:/home/$USER/Downloads
 

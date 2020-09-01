@@ -12,6 +12,7 @@ RUN yum -y install alsa-plugins-pulseaudio
 RUN yum -y install chromium
 
 COPY cnest-entry /usr/bin
+COPY cnest-user-setup /usr/sbin
 
 RUN yum clean metadata
 

@@ -12,6 +12,7 @@ COPY google-chrome-81.0.4044.138-x86_64.rpm google-chrome.rpm
 RUN yum -y install google-chrome.rpm
 
 COPY cnest-entry /usr/bin
+COPY cnest-user-setup /usr/sbin
 
 RUN yum clean metadata
 

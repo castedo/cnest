@@ -2,7 +2,7 @@
 set -o errexit
 
 REPOSITORY=docker.io/castedo/nests
-NEST=cheese-1
+NEST=cheese-2
 
 buildah bud --layers -t $REPOSITORY:$NEST .
 

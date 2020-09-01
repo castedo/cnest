@@ -10,6 +10,7 @@ COPY google-chrome-80.0.3987.132-amd64.deb google-chrome.deb
 RUN apt-get -y install ./google-chrome.deb
 
 COPY cnest-entry /usr/bin
+COPY cnest-user-setup /usr/bin
 
 RUN apt-get clean
 
