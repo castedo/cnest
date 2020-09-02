@@ -1,0 +1,14 @@
+REPOSITORY=docker.io/castedo/nests
+
+CREATE_OPTIONS="
+    --security-opt=label=disable
+    --volume $HOME/Downloads:/home/$USER/Downloads
+    --device /dev/video0
+    --device /dev/dri
+    --volume /dev/shm:/dev/shm
+    --volume /etc/machine-id:/etc/machine-id
+    $CNEST_X11
+    $CNEST_SYSTEM_BUS
+    $CNEST_SESSION_BUS
+    $CNEST_PULSEAUDIO
+"

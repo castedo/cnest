@@ -1,0 +1,8 @@
+REPOSITORY=docker.io/castedo/nests
+
+PULSE_SOCKET=/run/pulse/native
+PULSE_COOKIE=/run/pulse/cookie
+CREATE_OPTIONS="
+    --security-opt=label=disable
+    $CNEST_PULSEAUDIO
+"

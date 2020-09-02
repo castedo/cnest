@@ -1,26 +1,51 @@
 #!/bin/bash
 set -o errexit
 
-if [[ -z "$3" ]]; then
-  THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
-  echo "Usage: $THIS_SCRIPT image container_name user [extra_podman_options]"
-  exit 1
+print_usage() {
+    THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
+    echo "Usage: $THIS_SCRIPT profile image_tag [container_name]"
+    echo "Omit profile or image_tag to get list of possible values"
+}
+
+PROFILE=$1
+TAG=$2
+CONTAINER_NAME=$3
+if [[ -z "$CONTAINER_NAME" ]]; then
+    CONTAINER_NAME=$TAG
 fi
 
-IMAGE="$1"
-shift
-NAME="$1"
-shift
-CUSER="$1"
-shift
-EXTRA_OPTIONS="$@"
+CONFIG_DIR="~/.config/cnest"
+if [[ ! -d "$CONFIG_DIR" ]]; then
+  CONFIG_DIR="$(dirname "$0")/config"
+  echo Using default $CONFIG_DIR
+  echo To personalize, replicate at ~/.config/cnest
+fi
 
+NEST_PROFILES="$CONFIG_DIR/profiles"
+if [[ -z "$PROFILE" ]]; then
+    print_usage
+    echo "Nest profiles:"
+    ls $NEST_PROFILES
+    exit 1
+fi
+
+source $CONFIG_DIR/common.env
+source "$NEST_PROFILES/$PROFILE"
+
+if [[ -z "$TAG" ]]; then
+    print_usage
+    echo "Images tags:"
+    skopeo list-tags docker://$REPOSITORY
+    exit 1
+fi
+
+build-nest-image $REPOSITORY:$TAG localnests:$TAG
+set -x
 podman create \
-  --userns=keep-id \
-  --user $CUSER \
-  --pid host \
-  --name "$NAME" \
-  $EXTRA_OPTIONS \
-  $IMAGE \
-  sleep +Inf
+    --userns=keep-id \
+    --user $USER \
+    --name "$CONTAINER_NAME" \
+    $CREATE_OPTIONS \
+    "localnests:$TAG" \
+    sleep +Inf
 

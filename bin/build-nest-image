@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 set -o errexit
 
 USER_SETUP_HOOK="/usr/sbin/cnest-user-setup"
@@ -22,8 +22,9 @@ TMP=$(buildah --log-level=info from "$BASE_IMAGE")
 
 trap "buildah rm $TMP" EXIT
 
-buildah run $TMP test -x $USER_SETUP_HOOK ||
+if ! buildah run $TMP test -x $USER_SETUP_HOOK 2>/dev/null; then
   USER_SETUP_HOOK="useradd --create-home --user-group --uid"
+fi
 buildah run $TMP -- $USER_SETUP_HOOK $CUID $USER
 buildah config --user $USER --workingdir /home/$USER $TMP
 buildah commit $TMP "$NEST_IMAGE"

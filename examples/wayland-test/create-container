@@ -1,0 +1,2 @@
+#!/bin/bash
+create-nest wayland-app gnome-calculator-1

@@ -6,8 +6,10 @@ RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get -y install icedtea-netx
 
-COPY google-chrome-80.0.3987.132-amd64.deb google-chrome.deb
+COPY google-chrome-85.0.4183.83-amd64.deb google-chrome.deb
 RUN apt-get -y install ./google-chrome.deb
+
+RUN apt-get -y install pulseaudio-utils
 
 COPY cnest-entry /usr/bin
 COPY cnest-user-setup /usr/bin

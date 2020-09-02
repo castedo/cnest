@@ -1,9 +1,8 @@
 FROM registry.fedoraproject.org/fedora:32
 
-RUN yum -y install cheese
+RUN yum -y install gnome-calculator
 
 COPY cnest-entry /usr/bin
-COPY cnest-user-setup /usr/sbin
 
 RUN yum clean metadata
 
