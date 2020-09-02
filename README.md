@@ -1,5 +1,5 @@
-cnest
-=====
+cnest & create-nest
+===================
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Nest_-_Bird_%28PSF%29.png/260px-Nest_-_Bird_%28PSF%29.png" alt="Bird Nest">
 
 Simple scripts for personal (rootless) persistent parallel containers designed
@@ -12,7 +12,11 @@ to be run:
 * parallel: with multiple containers that all persist and will be invoked by
   identifying a container name (pattern)
 
-The main script here is [cnest](bin/cnest). It's just a simple script for invoking
+
+cnest
+-----
+
+The script [cnest](bin/cnest) is just a simple script for invoking
 `podman exec` with some extra niceties:
 
 * if optional [guess-container](bin/guess-container) is installed, you can type a
@@ -28,65 +32,35 @@ The main script here is [cnest](bin/cnest). It's just a simple script for invoki
 * look at the podman exec arguments in the script for the rest of the niceties
 
 
-Container Creation
-------------------
+create-nest
+-----------
 
-There are lots of ways to create containers and `cnest` can work fine with them
-as long as a user account has been created in the container.
+The script [create-nest](bin/create-nest) is for creating "nests", that is
+containers created from a local-only personalized container image.
 
-The script [create-homey-nest](bin/create-homey-nest) can be used to create "nest"
-containers that are 'personalized' for the local non-root user. For more details
-see below.
-
-Two **older** scripts, [build-nest-image](bin/build-nest-image) and [create-nest](bin/create-nest),
-can also used to create custom "nest" containers. See [examples](examples/) for usage.
-
-### [create-homey-nest](bin/create-homey-nest)
-
-This script is merely one of many ways to create containers that can be run with `cnest`.
-Some benefits of `create-homey-nest` is that the home directory inside the
-container is:
-
-* fully isolated by default
-* initialized and setup per the distro
-* only shares home directory files and subdirectories if explicitly specified
-  by a user preference file
-
-The script [create-homey-nest](bin/create-homey-nest) will create a container that works well
-with [cnest](bin/cnest). A preferences file can specify two items:
+A profile is specified when creating a nest. A profile file defines:
 
 * from which container image repository to customize a local "nest" image and container
 
-* what home directory files and subdirectories should be mounted in the "nest" container
-
-The preferences file can be specified on the command line or it can be placed at
-`~/.config/cnest/homey-nest.yaml` to be used by default. Here is example file:
-
-```
-base_repository: docker.io/castedo/tskit-nests
-home_mounts:
-    - .ssh
-    - shr
-    - Dropbox
-    - .vim
-    - .vimrc
-    - .gitconfig
-    - .sudo_as_admin_successful
-```
+* what `podman create` options to add, such as home directories to share
 
 As an example, if you run
 ```
-create-homey-nest ubuntu-20.04-mspdev --name mydev
+create-nest browser chromer-11 chrome
 ```
-then a "nest" container called `mydev` based on the image
-`docker.io/castedo/tskit-nests:ubuntu-20.04-mspdev` is created and customized
-for the current user. As part of the customization, the `home_mounts` will be
-mounted inside the container. Then running
+then the default `browser` profile will be used. It will pull the image with
+tag `chromer-11` from repository `docker.io/castedo/nests` and the custom
+customize it for the current user. A container named `chrome` will be created.
+Then
 ```
-cnest mydev
+cnest chrome
 ```
-will enter the "nest" as the local non-root user with an isolated home directory
-of only `home_mounts` shared outside the container.
+will launch Chrome on Feodra in a container with the `~/Downloads` folder shared
+with the host.
+
+Profiles are determined by trivial shell files.
+Make your own profile files or tweak the default ones.
+See [examples](examples/) for examples and usage.
 
 
 Desktop Menu Item/Icon Installation
@@ -103,11 +77,10 @@ Examples
 for containerizing:
 
 * [PulseAudio Test](examples/pulseaudio-test/)
-* [Webcam and non-X11 Wayland GNOME Cheese](examples/cheese_wayland)
+* [non-X11 Wayland GNOME Calculator](examples/wayland-test)
 * [Chromium on RHEL/Fedora (using PulseAudio and WebCam)](examples/chromium)
 * [Google Chrome on Fedora (using PulseAudio)](examples/chrome_fedora)
 * [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
-* [Amazon Workspaces Client](examples/amazon_workspaces/)
 
 
 Similar Tools

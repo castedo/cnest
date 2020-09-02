@@ -14,23 +14,25 @@ if [[ -z "$CONTAINER_NAME" ]]; then
     CONTAINER_NAME=$TAG
 fi
 
-CONFIG_DIR="~/.config/cnest"
-if [[ ! -d "$CONFIG_DIR" ]]; then
-  CONFIG_DIR="$(dirname "$0")/config"
-  echo Using default $CONFIG_DIR
-  echo To personalize, replicate at ~/.config/cnest
+CONFIG_FILE="$HOME/.config/cnest/config.env"
+if [[ ! -f $CONFIG_FILE ]]; then
+    CONFIG_FILE="$(dirname $0)/config/default.env"
+    echo Using default config $CONFIG_FILE
+    echo To personalize, modify copy at ~/.config/cnest/config.env
 fi
 
-NEST_PROFILES="$CONFIG_DIR/profiles"
+DEFAULT_PROFILES_DIR="$(dirname $0)/profiles"
+source $CONFIG_FILE
+
 if [[ -z "$PROFILE" ]]; then
     print_usage
-    echo "Nest profiles:"
-    ls $NEST_PROFILES
+    echo Nest profiles available:
+    find $PROFILE_DIRS -type f -printf "%f\n"
     exit 1
 fi
 
-source $CONFIG_DIR/common.env
-source "$NEST_PROFILES/$PROFILE"
+PROFILE_FILE=$(find $PROFILE_DIRS -name $PROFILE -print -quit)
+source $PROFILE_FILE
 
 if [[ -z "$TAG" ]]; then
     print_usage

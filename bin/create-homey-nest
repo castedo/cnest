@@ -40,31 +40,6 @@ def run(args, **kwargs):
 def check_call(args):
     run(args, check=True)
 
-def capture_output(args):
-    proc = run(args, stdout=subprocess.PIPE, check=True)
-    return proc.stdout.decode("utf-8").rstrip()
-
-def build_image(args):
-    base_image = args.base + ':' + args.image_tag
-    tmp_container = capture_output([
-            'buildah', '--log-level=info', 'from', base_image])
-    try:
-        cmd = ['buildah', 'run', tmp_container,
-               'test', '-x', USER_SETUP_HOOK]
-        if run(cmd, stderr=subprocess.DEVNULL).returncode == 0:
-            subcmd = [USER_SETUP_HOOK]
-        else:
-            subcmd = ['useradd', '--create-home', '--user-group', '--uid']
-        uid = pwd.getpwnam(args.user).pw_uid
-        check_call(['buildah', 'run', tmp_container] +
-            subcmd + [str(uid), args.user])
-        check_call(['buildah', 'config',
-            '--user', args.user, '--workingdir', str(Path.home()),
-            tmp_container])
-        check_call(['buildah', 'commit', tmp_container, args.image])
-    finally:
-        check_call(['buildah', 'rm', tmp_container])
-
 def create_container(args):
     mounts = ['/tmp/.X11-unix']
     for hm in args.home_mounts:
@@ -86,10 +61,8 @@ def create_container(args):
 if __name__ == "__main__":
     args = parse_args()
     try:
-        if run(['podman', 'image', 'exists', args.image]).returncode == 0:
-            print("Skipping build of existing image:", args.image)
-        else:
-            build_image(args)
+        base_image = args.base + ':' + args.image_tag
+        check_call(['build-nest-image', base_image, args.image])
         create_container(args)
     except subprocess.CalledProcessError as ex:
         print("Error:", ex, file=sys.stderr)
