@@ -3,32 +3,32 @@ cnest & create-nest
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Nest_-_Bird_%28PSF%29.png/260px-Nest_-_Bird_%28PSF%29.png" alt="Bird Nest">
 
 Simple scripts for personal (rootless) persistent parallel containers designed
-to be run:
+to be:
 
 * personal: with rootless podman into containers as same user
 * persistent: with mutable "pet" containers where you can interactively run yum,
   apt-get, change settings, etc... in containers you don't want automatically
   deleted
-* parallel: with multiple containers that all persist and will be invoked by
+* parallel: with multiple containers that all persist and are invoked by
   identifying a container name (pattern)
 
 
 cnest
 -----
 
-The script [cnest](bin/cnest) is just a simple script for invoking
+[cnest](bin/cnest) is a simple script for invoking
 `podman exec` with some extra niceties:
 
-* if optional [guess-container](bin/guess-container) is installed, you can type a
-  container name without a version suffix (e.g. type "webdev" and it guesses
-  you want a container named "webdev-5")
-* the container's command line prompt will report the container name if your
-  image or container has been setup as documented in
-  [prompt/](prompt/README.md).
 * unlike `podman exec`, you can omit the command to exec and it will default to
   executing either the command
   * /usr/bin/cnest-entry in the container if it exists OR
   * /bin/bash --login
+* the container's command line prompt will report the container name if your
+  image or container has been setup as documented in
+  [prompt/](prompt/).
+* if optional [guess-container](bin/guess-container) is installed, you can type a
+  container name without a version suffix (e.g. type "webdev" and it guesses
+  you want a container named "webdev-5")
 * look at the podman exec arguments in the script for the rest of the niceties
 
 
@@ -49,18 +49,21 @@ As an example, if you run
 create-nest browser chromer-11 chrome
 ```
 then the default `browser` profile will be used. It will pull the image with
-tag `chromer-11` from repository `docker.io/castedo/nests` and the custom
+tag `chromer-11` from repository `docker.io/castedo/nests` and then
 customize it for the current user. A container named `chrome` will be created.
 Then
 ```
 cnest chrome
 ```
-will launch Chrome on Feodra in a container with the `~/Downloads` folder shared
+can launch Chrome on Feodra in a container with the `~/Downloads` folder shared
 with the host.
 
 Profiles are determined by trivial shell files.
 Make your own profile files or tweak the default ones.
-See [examples](examples/) for examples and usage.
+See [examples](examples/) for example `build-image` commands
+and example `create-container` commands (calling `creat-nest`).
+See [profiles](bin/profiles/) for example profile files and
+[the default configuration file](bin/config/default.env).
 
 
 Desktop Menu Item/Icon Installation
@@ -76,11 +79,11 @@ Examples
 [Example Dockerfile, image building, and container creating scripts](examples/)
 for containerizing:
 
+* [Chromium on RHEL/Fedora (using PulseAudio/WebCam)](examples/chromium)
+* [Google Chrome on Fedora (using PulseAudio/WebCam)](examples/chrome_fedora)
+* [Google Chrome on Ubuntu (using PulseAudio/WebCam)](examples/chrome_ubuntu/)
 * [PulseAudio Test](examples/pulseaudio-test/)
 * [non-X11 Wayland GNOME Calculator](examples/wayland-test)
-* [Chromium on RHEL/Fedora (using PulseAudio and WebCam)](examples/chromium)
-* [Google Chrome on Fedora (using PulseAudio)](examples/chrome_fedora)
-* [Google Chrome on Ubuntu](examples/chrome_ubuntu/)
 
 
 Similar Tools
@@ -98,5 +101,6 @@ Also kind of similar is [podbox](https://github.com/DimaZirix/podbox)
 with contained GUI applications.
 
 Before attemping to containerize a GUI app, check to see if a [flatpak](https://flatpak.org/)
-is available. An GUI desktop application that has already been flatpak'ed
-will probably work better and more seamlessly than implementing a new container.
+is available. A GUI desktop application that has already been flatpak'ed
+will likely work better and more seamlessly than implementing a new container.
+

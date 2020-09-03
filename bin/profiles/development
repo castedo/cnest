@@ -1,0 +1,12 @@
+REPOSITORY=docker.io/castedo/nests
+
+CREATE_OPTIONS="
+    --volume $HOME/.ssh:$HOME/.ssh
+    --volume $HOME/.gitconfig:$HOME/.gitconfig
+    --volume $HOME/Dropbox:$HOME/Dropbox
+    $CNEST_SHARE_NETWORK
+    $CNEST_X11
+    --security-opt=label=disable
+    --pid=host
+    --cap-add=SYS_PTRACE
+"

@@ -26,7 +26,7 @@ do any of:
 ## On Red Hat based distros
 
 To enable the similar `debian_chroot` functionality on a Red Hat based distro,
-you can use the `osvirtaliasprompt.sh` script in this folder.
+you can use the [osvirtaliasprompt.sh](osvirtaliasprompt.sh) script in this folder.
 
 Use it by either of:
 
