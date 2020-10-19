@@ -27,11 +27,11 @@ source $CONFIG_FILE
 if [[ -z "$PROFILE" ]]; then
     print_usage
     echo Nest profiles available:
-    find $PROFILE_DIRS -type f -printf "%f\n"
+    find -L $PROFILE_DIRS -type f -printf "%f\n"
     exit 1
 fi
 
-PROFILE_FILE=$(find $PROFILE_DIRS -name $PROFILE -print -quit)
+PROFILE_FILE=$(find -L $PROFILE_DIRS -name $PROFILE -print -quit)
 source $PROFILE_FILE
 
 if [[ -z "$TAG" ]]; then
