@@ -1,3 +1,5 @@
+source $CNEST_DEFAULT_ENV_FILE
+
 REPOSITORY=docker.io/castedo/nests
 
 PULSE_SOCKET=/run/pulse/native
