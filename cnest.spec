@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Simple scripts for personal persistent parallel containers
 
 License: MIT
@@ -44,4 +44,7 @@ install -d %{buildroot}%{_sysconfdir}/cnest/profiles/
 %dir %{_sysconfdir}/cnest/profiles
 
 %changelog
+* Mon Sep 06 2021 Castedo Ellerman <castedo@castedo.com> 1-2
+- new package built with tito
+
 
