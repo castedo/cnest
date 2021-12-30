@@ -1,6 +1,6 @@
 
 if [ -z "$OSVIRTALIAS" ] && [ -r /etc/osvirtalias ]; then
-  OSVIRTALIAS=$(cat /etc/virtosinstance)
+  OSVIRTALIAS=$(cat /etc/osvirtalias)
 fi
 
 if [ "$PS1" ] && [ "$OSVIRTALIAS" ]; then
