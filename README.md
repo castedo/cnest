@@ -31,18 +31,32 @@ cnest
   you want a container named "webdev-5")
 * look at the podman exec arguments in the script for the rest of the niceties
 
+### Container requirements
+
+The [cnest](bin/cnest) script can be used with any container that
+
+* will run in the background after `podman start`
+* has either `/bin/bash` or `/usr/bin/cnest-entry` available to execute
+
+A container does not have to created with [create-nest](bin/create-nest).
+
 
 create-nest
 -----------
 
 The script [create-nest](bin/create-nest) is for creating "nests", that is
-containers created from a local-only personalized container image.
+containers created from a local-only personalized "nest" container image.
 
 A profile is specified when creating a nest. A profile file defines:
 
 * from which container image repository to customize a local "nest" image and container
 
 * what `podman create` options to add, such as home directories to share
+
+### Requirements for images pulled from repositories
+
+* `sleep +Inf` is valid commmand to run
+* either `useradd` is installed or `/usr/sbin/cnest-user-setup` exists
 
 
 How to use

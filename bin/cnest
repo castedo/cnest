@@ -9,7 +9,7 @@ fi
 CONTAINER="$1"
 shift
 
-if command -v guess-container >/dev/null 2>&1; then
+if command -v guess-container &>/dev/null; then
   # if guess-container can be run, then guess full container name
   CONTAINER=$(guess-container $CONTAINER)
   if [[ -z "$CONTAINER" ]]; then
@@ -29,6 +29,7 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 podman start $CONTAINER
+
 podman exec -it \
   -e LANG \
   -e TERM \
@@ -38,4 +39,9 @@ podman exec -it \
   -e debian_chroot=$CONTAINER \
   $CONTAINER \
   $COMMAND
+
+NUM_EXEC=$(podman container inspect --format "{{len .ExecIDs}}" $CONTAINER)
+if [[ $NUM_EXEC -eq 0 ]]; then
+  podman stop $CONTAINER
+fi
 
