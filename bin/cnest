@@ -36,7 +36,6 @@ podman exec -it \
   -e DISPLAY \
   --detach-keys="" \
   -e OSVIRTALIAS=$CONTAINER \
-  -e debian_chroot=$CONTAINER \
   $CONTAINER \
   $COMMAND
 

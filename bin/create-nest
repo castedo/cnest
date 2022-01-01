@@ -3,20 +3,28 @@ set -o errexit
 
 print_usage() {
     THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
-    echo "Usage: $THIS_SCRIPT profile image_tag [container_name]"
-    echo "Omit profile or image_tag to get list of possible values"
+    echo "Usage:"
+    echo "  $THIS_SCRIPT"
+    echo "    to print list of available profiles."
+    echo "  $THIS_SCRIPT profile"
+    echo "    to print valid image_tag or image_ref values."
+    echo "  $THIS_SCRIPT profile image_tag [container_name]"
+    echo "    for profiles with fully specified repository."
+    echo "  $THIS_SCRIPT profile image_ref container_name"
+    echo "    for profiles with partially specified repository."
 }
 
 PROFILE=$1
-TAG=$2
-CONTAINER_NAME=$3
-if [[ -z "$CONTAINER_NAME" ]]; then
-    CONTAINER_NAME=$TAG
+if [[ -z "$3" ]]; then
+    # assume image_tag and not image_ref, until after profile file is sourced
+    CONTAINER_NAME=$2
+else
+    CONTAINER_NAME=$3
 fi
 
 PROFILE_DIRS="/etc/cnest/profiles"
 if [[ -e $HOME/.config/cnest/profiles ]]; then
-  PROFILE_DIRS="$HOME/.config/cnest/profiles $PROFILE_DIRS"
+    PROFILE_DIRS="$HOME/.config/cnest/profiles $PROFILE_DIRS"
 fi
 
 if [[ -z "$PROFILE" ]]; then
@@ -29,21 +37,43 @@ fi
 PROFILE_FILE=$(find -L $PROFILE_DIRS -name $PROFILE -print -quit)
 CNEST_DEFAULT_ENV_FILE="/etc/cnest/default.env"
 source $PROFILE_FILE
+# variables set by PROFILE_FILE:
+#   REPOSITORY, NEST_BASE, CREATE_OPTIONS
 
-if [[ -z "$TAG" ]]; then
+if [[ -z "$2" ]]; then
     print_usage
-    echo "Images tags:"
-    skopeo list-tags docker://$REPOSITORY
+    if [[ $REPOSITORY == */ ]]; then
+        echo "Pass image_ref to append to $REPOSITORY"
+    else
+        echo "Pass image_tag as one of:"
+        skopeo list-tags docker://$REPOSITORY
+    fi
     exit 1
 fi
 
-build-nest-image $REPOSITORY:$TAG localnests:$TAG
+if [[ -z $NEST_BASE ]]; then
+    NEST_BASE="nest"
+fi
+
+if [[ $REPOSITORY == */ ]]; then
+    if [[ -z "$3" ]]; then
+        print_usage
+        exit 1
+    fi
+    REPO_IMAGE="$REPOSITORY$2"
+    NEST_IMAGE="$NEST_BASE/$2"
+else
+    REPO_IMAGE="$REPOSITORY:$2"
+    NEST_IMAGE="$NEST_BASE:$2"
+fi
+
+build-nest-image $REPO_IMAGE $NEST_IMAGE
 set -x
 podman create \
     --userns=keep-id \
     --user $USER \
     --name "$CONTAINER_NAME" \
     $CREATE_OPTIONS \
-    "localnests:$TAG" \
+    $NEST_IMAGE \
     sleep +Inf
 

@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 set -o errexit
 
 USER_SETUP_HOOK="/usr/sbin/cnest-user-setup"
@@ -13,8 +13,12 @@ BASE_IMAGE=$1
 NEST_IMAGE=$2
 
 if podman image exists "$NEST_IMAGE"; then
-  echo "Skipping build of existing image: $NEST_IMAGE"
-  exit
+  PARENT_ID=$(podman image inspect --format "{{.Parent}}" $NEST_IMAGE)
+  BASE_ID=$(podman image inspect --format "{{.Id}}" $BASE_IMAGE)
+  if [[ "$PARENT_ID" == "$BASE_ID" ]]; then
+    echo "Skipping build of existing image: $NEST_IMAGE"
+    exit
+  fi
 fi
 
 CUID=$(id -u $USER)
@@ -25,6 +29,8 @@ trap "buildah rm $TMP" EXIT
 if ! buildah run $TMP test -x $USER_SETUP_HOOK 2>/dev/null; then
   USER_SETUP_HOOK="useradd --create-home --user-group --uid"
 fi
+
+set -x
 buildah run $TMP -- $USER_SETUP_HOOK $CUID $USER
 buildah config --user $USER --workingdir /home/$USER $TMP
 buildah commit $TMP "$NEST_IMAGE"

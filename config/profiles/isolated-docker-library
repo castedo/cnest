@@ -1,0 +1,10 @@
+source $CNEST_DEFAULT_ENV_FILE
+
+REPOSITORY=docker.io/library/
+NEST_BASE=nest/docker
+
+CREATE_OPTIONS="
+    --volume $HOME/Downloads:$HOME/Downloads
+    --hostname $CONTAINER_NAME.$HOSTNAME
+    --pid=host
+"

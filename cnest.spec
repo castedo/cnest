@@ -33,6 +33,7 @@ install bin/guess-container %{buildroot}%{_bindir}/
 install -d %{buildroot}%{_sysconfdir}/cnest/
 install config/default.env %{buildroot}%{_sysconfdir}/cnest/
 install -d %{buildroot}%{_sysconfdir}/cnest/profiles/
+install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest/profiles/
 
 %files
 %{_bindir}/cnest
@@ -42,9 +43,9 @@ install -d %{buildroot}%{_sysconfdir}/cnest/profiles/
 %dir %{_sysconfdir}/cnest
 %{_sysconfdir}/cnest/default.env
 %dir %{_sysconfdir}/cnest/profiles
+%{_sysconfdir}/cnest/profiles/isolated-docker-library
 
 %changelog
 * Mon Sep 06 2021 Castedo Ellerman <castedo@castedo.com> 1-2
 - new package built with tito
-
 
