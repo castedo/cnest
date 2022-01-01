@@ -1,16 +1,19 @@
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png)
+](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/)
+
 cnest & create-nest
 ===================
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Nest_-_Bird_%28PSF%29.png/260px-Nest_-_Bird_%28PSF%29.png" alt="Bird Nest">
 
-Simple scripts for personal (rootless) persistent parallel containers designed
+Simple scripts for personalized persistent controlled containers designed
 to be:
 
-* personal: with rootless podman into containers as same user
+* personalized: with rootless podman into containers personalized for local user
 * persistent: with mutable "pet" containers where you can interactively run yum,
   apt-get, change settings, etc... in containers you don't want automatically
   deleted
-* parallel: with multiple containers that all persist and are invoked by
-  identifying a container name (pattern)
+* controlled: profiles picked by the user determine what capabilities are given
+  to the container (isolation by default)
 
 
 cnest
@@ -71,7 +74,7 @@ yum copr enable castedo/cnest
 yum install cnest
 ```
 
-Contact me if you want a package for another distro.
+[Email me](mailto:castedo@castedo.com) if you want a package for another distro.
 
 ### Configure profiles
 

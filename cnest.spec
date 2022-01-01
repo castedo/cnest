@@ -1,7 +1,7 @@
 Name: cnest
-Version: 1
-Release: 2%{?dist}
-Summary: Simple scripts for personal persistent parallel containers
+Version: 1.2
+Release: 0%{?dist}
+Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
 URL: https://github.com/castedo/cnest
@@ -44,6 +44,7 @@ install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest
 %{_sysconfdir}/cnest/default.env
 %dir %{_sysconfdir}/cnest/profiles
 %{_sysconfdir}/cnest/profiles/isolated-docker-library
+%license LICENSE
 
 %changelog
 * Mon Sep 06 2021 Castedo Ellerman <castedo@castedo.com> 1-2

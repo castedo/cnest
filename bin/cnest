@@ -6,19 +6,21 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-CONTAINER="$1"
+PATTERN="$1"
 shift
+COMMAND="$@"
 
 if command -v guess-container &>/dev/null; then
   # if guess-container can be run, then guess full container name
-  CONTAINER=$(guess-container $CONTAINER)
+  CONTAINER=$(guess-container $PATTERN)
   if [[ -z "$CONTAINER" ]]; then
-    echo "Can not find container matching: $1"
+    echo "Can not find container matching: $PATTERN"
     exit 1
   fi
+else
+  CONTAINER=$PATTERN
 fi
 
-COMMAND="$@"
 if [[ -z "$COMMAND" ]]; then
   # check if cnest-entry exists by trying to copy from container to stdout
   if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
