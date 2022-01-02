@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.2
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -51,6 +51,12 @@ install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest
 %license LICENSE
 
 %changelog
+* Sun Jan 02 2022 Castedo Ellerman <castedo@castedo.com> 1.2-1
+- get single rpm working on fedora 35
+- bug fixes
+- include one profile for very isolated nests
+- stop container when no more exec sessions
+
 * Mon Sep 06 2021 Castedo Ellerman <castedo@castedo.com> 1-2
 - new package built with tito
 
