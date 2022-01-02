@@ -7,18 +7,22 @@ License: MIT
 URL: https://github.com/castedo/cnest
 Source0: %{name}-%{version}.tar.gz
 
+%define __brp_mangle_shebangs /usr/bin/true
+
 BuildArch: noarch
 Requires: bash, coreutils, findutils
-Requires: python3
 Requires: podman, buildah, skopeo
+Requires: python3
 
 %description
-Simple scripts for personal persistent parallel containers designed to be:
-* personal: with rootless podman into containers as same user
-* persistent: with mutable "pet" containers where you can interactively run
-  yum, apt-get, change settings, etc in containers you don't want auto deleted
-* parallel: with multiple containers that all persist and are invoked by
-  identifying a container name (pattern)
+Simple scripts for personalized persistent controlled containers designed
+to be:
+* personalized: with rootless podman into containers personalized for local user
+* persistent: with mutable "pet" containers where you can interactively run yum,
+  apt-get, change settings, etc... in containers you don't want automatically
+  deleted
+* controlled: profiles picked by the user determine what capabilities are given
+  to the container (isolation by default)
 
 %prep
 %setup -q
