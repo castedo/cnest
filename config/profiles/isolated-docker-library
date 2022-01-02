@@ -5,6 +5,4 @@ NEST_BASE=nest/docker
 
 CREATE_OPTIONS="
     --volume $HOME/Downloads:$HOME/Downloads
-    --hostname $CONTAINER_NAME.$HOSTNAME
-    --pid=host
 "

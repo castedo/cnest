@@ -8,6 +8,9 @@ if [[ -z "$2" ]]; then
   echo "Usage: $THIS_SCRIPT base_image nest_name"
   exit 1
 fi
+if [[ -z $USER ]]; then
+  USER=$(id -un)
+fi
 
 BASE_IMAGE=$1
 NEST_IMAGE=$2

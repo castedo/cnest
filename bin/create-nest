@@ -14,6 +14,10 @@ print_usage() {
     echo "    for profiles with partially specified repository."
 }
 
+if [[ -z $USER ]]; then
+  USER=$(id -un)
+fi
+
 PROFILE=$1
 if [[ -z "$3" ]]; then
     # assume image_tag and not image_ref, until after profile file is sourced
@@ -73,6 +77,10 @@ podman create \
     --userns=keep-id \
     --user $USER \
     --name "$CONTAINER_NAME" \
+    --uts=private \
+    --hostname $CONTAINER_NAME.$HOSTNAME \
+    --cgroups=enabled \
+    --pid=host \
     $CREATE_OPTIONS \
     $NEST_IMAGE \
     sleep +Inf
