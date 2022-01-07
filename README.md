@@ -80,9 +80,6 @@ cnest
   executing either the command
   * /usr/bin/cnest-entry in the container if it exists OR
   * /bin/bash --login
-* the container's command line prompt will report the container name if your
-  image or container has been setup as documented in
-  [prompt/](prompt/).
 * if optional [guess-container](bin/guess-container) is installed, you can type a
   container name without a version suffix (e.g. type "webdev" and it guesses
   you want a container named "webdev-5")

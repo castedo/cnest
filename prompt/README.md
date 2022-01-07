@@ -1,5 +1,15 @@
 # command line prompting
 
+After [this discussion](https://github.com/89luca89/distrobox/issues/62),
+[@89luca89](https://github.com/89luca89) and I decided it makes sense to assign
+the hostname of a container to a FQDN of `container-name.host-hostname` for
+various reasons discussed in the issue.
+
+The below section is preserved for reference.
+
+
+## Obsolete material below
+
 When running an interactive shell session inside a container, it is a useful to
 know the contained **environment** from the command line prompt.
 You might prefer to see the actual container name **or** maybe just an alias

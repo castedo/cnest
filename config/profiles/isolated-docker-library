@@ -1,5 +1,3 @@
-source $CNEST_DEFAULT_ENV_FILE
-
 REPOSITORY=docker.io/library/
 NEST_BASE=nest/docker
 

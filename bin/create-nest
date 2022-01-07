@@ -40,9 +40,13 @@ fi
 
 PROFILE_FILE=$(find -L $PROFILE_DIRS -name $PROFILE -print -quit)
 CNEST_DEFAULT_ENV_FILE="/etc/cnest/default.env"
-source $PROFILE_FILE
-# variables set by PROFILE_FILE:
-#   REPOSITORY, NEST_BASE, CREATE_OPTIONS
+eval $(
+  source $CNEST_DEFAULT_ENV_FILE
+  source $PROFILE_FILE
+  echo REPOSITORY=\"$REPOSITORY\"
+  echo NEST_BASE=\"$NEST_BASE\"
+  echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
+)
 
 if [[ -z "$2" ]]; then
     print_usage

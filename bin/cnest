@@ -32,12 +32,14 @@ fi
 
 podman start $CONTAINER
 
+REALPWD=$(realpath "$PWD")
 podman exec -it \
   -e LANG \
   -e TERM \
   -e DISPLAY \
   --detach-keys="" \
-  -e OSVIRTALIAS=$CONTAINER \
+  -e CNEST_PWD="$PWD" \
+  -e CNEST_PWD_DEV_INODE=$(stat --printf=%d:%i "$REALPWD") \
   $CONTAINER \
   $COMMAND
 
