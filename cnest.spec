@@ -1,5 +1,5 @@
 Name: cnest
-Version: 1.2
+Version: 1.3
 Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
@@ -51,6 +51,11 @@ install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest
 %license LICENSE
 
 %changelog
+* Fri Jan 07 2022 Castedo Ellerman <castedo@castedo.com> 1.3-1
+- Eliminate OSVIRTALIAS
+- make cnest provide pwd and inode to container session
+- eliminate hack sourcing from within profile files
+
 * Sun Jan 02 2022 Castedo Ellerman <castedo@castedo.com> 1.2-1
 - get single rpm working on fedora 35
 - bug fixes
