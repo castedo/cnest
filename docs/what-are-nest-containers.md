@@ -10,7 +10,7 @@ Nest containers are similar to [flatpaks](https://flatpak.org/) and
 [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface) desktop
 applications.
 Conda is optimized for portable software packages across Windows, macOS and
-Linux without [OS-level
+Linux without resorting to [OS-level
 virtualization](https://en.wikipedia.org/wiki/OS-level_virtualization).
 
 As OCI containers, nest containers have three key features:
@@ -28,7 +28,7 @@ the local user account of the hosting computer.
 
 ### Persistent
 
-Containers are usually non-persistent and used for service running in the
+Containers are usually non-persistent and used for services running in the
 background. But for interactive shell sessions, it is convenient to let
 the contained file system persist across process termination and reboots,
 by default.

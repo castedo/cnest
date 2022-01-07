@@ -4,6 +4,9 @@ cnest installation
 [![Copr build status](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png)
 ](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/)
 
+Please [Email me](mailto:castedo@castedo.com) if you start using cnest or
+create-nest and want backwards compatibility maintained.
+
 
 RHEL 8
 ------
@@ -23,7 +26,7 @@ Fedora
 I've built the RPM package to be Fedora friendly.
 Chances are you can do the following:
 ```
-yum install https://github.com/castedo/cnest/releases/download/cnest-1.2-1/cnest-1.2-1.el8.noarch.rpm
+yum install https://github.com/castedo/cnest/releases/download/cnest-1.3-1/cnest-1.3-1.el8.noarch.rpm
 ```
 Check the github releases to make sure this rpm URL is the latest.
 
