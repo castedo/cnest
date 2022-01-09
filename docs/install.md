@@ -31,8 +31,12 @@ yum install https://github.com/castedo/cnest/releases/download/cnest-1.3-1/cnest
 Check the github releases to make sure this rpm URL is the latest.
 
 
-Future
-------
+pip install
+-----------
 
-I'm planning to make this package Python `pip` installable from the git repository.
+To install the latest scripts from github:
+
+```
+python3 -m pip install git+https://github.com/castedo/cnest.git
+```
 

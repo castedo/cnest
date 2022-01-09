@@ -8,8 +8,12 @@ cnest & create-nest
 [cnest](bin/cnest) is a simple wrapper script of podman for entering
 [nest containers](docs/what-are-nest-containers.md).
 
-[create-nest](bin/create-nest) is an increasingly not-so-simple script for
+[create-nest](bin/create-nest) is a simple wrapper script of podman for
 creating [nest containers](docs/what-are-nest-containers.md).
+
+[create-nest-by-tag](bin/create-nest-by-tag) is a simple helper script of
+crest-nest for choosing image and container names from tags in a single
+repository.
 
 [What are nest containers?](docs/what-are-nest-containers.md)
 
@@ -21,53 +25,72 @@ After [installation](docs/install.md), you can
 ```
 create-nest
 ```
-to see available profiles. One profile named `isolated-docker-library` is
-pre-installed and can be used as such:
+to see available profiles. If this is the first time
+running `create-nest` then a profile `only-downloads` has been copied to
+`~/.config/cnest/profiles` for convenienice.
+
 ```
 mkdir -p ~/Downloads
-create-nest isolated-docker-library debian mynest
+create-nest only-downloads debian mynest
 ```
-This creates a new personalized container named `mynest` which is
+This creates a new container named `mynest` which is
 highly isolated and only shares `~/Downloads` with the host.
-Instead of `debian` you can choose another distro under `docker.io/library`.
 
 To enter this new nest container do:
 ```
 cnest mynest
 ```
 
+## Getting more out of cnest
+
+To take full advantage of the extra features of `cnest` an image need to have
+some extra features. The `cnestify-image` takes a base image and creates a new
+images with extra features enabled for `cnest`.
+
+```
+cnestify-image fedora fedplus
+```
+
+now there's a new `localhost/fedplus` image with which you can create a new
+nest:
+
+```
+create-nest only-downloads fedplus mynest2
+```
+
+Now entering the container will benefit from some extra goodies:
+
+```
+cd ~/Downloads
+cnest mynest2
+```
+
+* Notice that `cnest` detected that you were in `~/Downloads` and that
+  directory is the same inside the nest container. So `cnest` kept you in the
+  same directory.
+* You also have an emoji to let you know you're inside a container.
+* Various distro extras like coloring have been enabled because the home
+  directory has been populated with distro default home files like `.bashrc`
+  instead of being an empty home directory.
+
 
 Profiles
 --------
 
-A profile determines what OSI repository to pull images from and what
+A profile determines what
 permissions, resources and capabilities to expose to a created nest container.
 In the cnest 1.x version series, a profile is just a shell script that will
 be sourced by `create-nest`. But this is a proof-of-concept hack and cnest
 version 2.0 will switch to some more sane format.
 
 You can add custom profiles to `~/.config/cnest/profiles/`.
-See [isolated-docker-library](config/profiles/isolated-docker-library)
+See [only-downloads](cnest/data/starter-profiles/only-downloads)
 for the pre-installed bare-bones example.
 
-Once you have profiles confidered you can do
-
+To see what profiles you can use, run `create-nest` without any parameters:
 ```
-create-nest some_profile
+create-nest
 ```
-to list available OSI image names, or
-
-```
-creat-nest some_profile some_name
-```
-to create a nest container from image `some_name` and name the container the
-same, or
-
-```
-creat-nest some_profile some_name a_diff_name
-```
-to name the container `a_diff_name`.
-
 
 
 cnest
@@ -80,9 +103,13 @@ cnest
   executing either the command
   * /usr/bin/cnest-entry in the container if it exists OR
   * /bin/bash --login
-* if optional [guess-container](bin/guess-container) is installed, you can type a
-  container name without a version suffix (e.g. type "webdev" and it guesses
-  you want a container named "webdev-5")
+* will automatically keep you in your currently directory if the container
+  image has been enhanced with `cnestify-image` and your currently directory is
+  also shared with the nest container with the same path.
+* you can type a container name without a version suffix (e.g. type "webdev"
+  and it guesses you want a container named "webdev-5")
+* will stop the container if there are no more podman exec sessions (of which
+  cnest sessions are one case)
 * look at the podman exec arguments in the script for the rest of the niceties
 
 ### Container requirements
@@ -92,7 +119,7 @@ The [cnest](bin/cnest) script can be used with any container that
 * will run in the background after `podman start`
 * has either `/bin/bash` or `/usr/bin/cnest-entry` available to execute
 
-A container does not have to created with [create-nest](bin/create-nest).
+A container does not have to be created with [create-nest](bin/create-nest).
 
 
 create-nest
@@ -112,6 +139,30 @@ A profile is specified when creating a nest. A profile file defines:
 * `sleep +Inf` is valid commmand to run
 * either `useradd` is installed or `/usr/sbin/cnest-user-setup` exists
 
+
+create-nest-by-tag
+------------------
+
+If you have many favorite images in one single repository
+with tag names that can serve as container names, `create-nest-by-tag`
+is convenient.
+
+```
+export CNEST_REPOSITORY=myfavrepo
+create-nest-by-tag some_profile
+```
+to list available OSI image tag names in myfavrepo, or
+
+```
+creat-nest-by-tag some_profile foo-2
+```
+to create a nest container from the image tagged `foo-2` and name the container
+the same, or
+
+```
+creat-nest-by-tag some_profile foo-2 a_diff_name
+```
+to name the container `a_diff_name`.
 
 
 Similar Tools

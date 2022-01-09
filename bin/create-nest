@@ -21,7 +21,7 @@ fi
 PROFILE_DIR=$HOME/.config/cnest/profiles
 if [[ ! -d $PROFILE_DIR ]]; then
     mkdir -p $PROFILE_DIR
-    cp -ra /etc/cnest/profiles/. $PROFILE_DIR
+    cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
 fi
 
 if [[ -z $CONTAINER_NAME ]]; then
@@ -29,12 +29,12 @@ if [[ -z $CONTAINER_NAME ]]; then
     if [[ -z $PROFILE ]]; then
         echo Profiles available from $PROFILE_DIR:
         ls $PROFILE_DIR
-        exit 1
     fi
+    exit 1
 fi
 
 eval $(
-  source /etc/cnest/default.env
+  source $(python3 -m cnest.getpath default-env.sh)
   source $PROFILE_DIR/$PROFILE
   echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
 )
