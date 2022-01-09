@@ -1,0 +1,47 @@
+#!/bin/bash
+set -o errexit
+
+print_usage() {
+    THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
+    echo "Usage:"
+    echo "  export CNEST_REPOSITORY=myrepository"
+    echo "  $THIS_SCRIPT profile"
+    echo "    to print valid image tags if remote repository."
+    echo "    Run create-nest for a list of profiles."
+    echo "  $THIS_SCRIPT profile image_tag [container_name]"
+    echo "    to build nest container by tag."
+}
+
+if [[ -z $CNEST_REPOSITORY ]]; then
+    print_usage
+    echo "CNEST_REPOSITORY is not set"
+    exit 1
+fi
+if [[ "$CNEST_REPOSITORY" != localhost/* && "$CNEST_REPOSITORY" != *\.*/* ]]; then
+    echo "CNEST_REPOSITORY must be fully qualified image name"
+    exit 1
+fi
+
+PROFILE=$1
+TAG=$2
+CONTAINER_NAME=$3
+if [[ -z $CONTAINER_NAME ]]; then
+    CONTAINER_NAME=$TAG
+fi
+
+if [[ -z "$TAG" ]]; then
+    print_usage
+    if [[ "$PROFILE" ]]; then
+        echo "Pass image_tag of local image:"
+        podman images $CNEST_REPOSITORY:
+        if [[ "$CNEST_REPOSITORY" != localhost/* ]]; then
+            echo "Or from remote repository:"
+            skopeo list-tags docker://$CNEST_REPOSITORY
+        fi
+    fi
+    exit 1
+fi
+
+set -x
+create-nest $PROFILE $CNEST_REPOSITORY:$TAG $CONTAINER_NAME
+

@@ -10,7 +10,7 @@ Source0: %{name}-%{version}.tar.gz
 %define __brp_mangle_shebangs /usr/bin/true
 
 BuildArch: noarch
-Requires: bash, coreutils, findutils
+Requires: bash, coreutils
 Requires: podman, buildah, skopeo
 Requires: python3
 
