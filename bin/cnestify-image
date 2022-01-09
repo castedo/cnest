@@ -1,0 +1,27 @@
+#!/bin/bash
+set -o errexit
+
+BASE_IMAGE=$1
+DEST_IMAGE=$2
+CNESTIFY_DATA=$3
+
+if [[ ! $NESTSIGN ]]; then
+    NESTSIGN=$'\xF0\x9F\x93\xA6'
+fi
+
+CONTAINER=$(buildah from "$BASE_IMAGE")
+
+trap "buildah rm $CONTAINER" EXIT
+
+set -x
+
+buildah copy $CONTAINER "$CNESTIFY_DATA/nestkit" /opt/nestkit
+
+buildah copy $CONTAINER "$CNESTIFY_DATA/cnest-entry" /usr/bin/
+
+CONTAINER_SH_CMD="echo -n $NESTSIGN > /etc/nestsign"
+buildah run $CONTAINER sh -c "$CONTAINER_SH_CMD"
+buildah copy $CONTAINER "$CNESTIFY_DATA/nestsignprompt.sh" /etc/profile.d/
+
+buildah commit $CONTAINER "$DEST_IMAGE"
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -o errexit
+
+CUSER=$1
+if [[ ! $CUSER ]]; then
+    echo container user missing as parameter
+    exit 1;
+fi
+# check $CUSER is valid user
+id -u "$CUSER" &>/dev/null
+
+su $CUSER -c "\
+  cp --recursive --no-clobber --archive /etc/skel/. /home/$CUSER"
+

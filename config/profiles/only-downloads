@@ -1,6 +1,4 @@
-REPOSITORY=docker.io/library/
-NEST_BASE=nest/docker
-
 CREATE_OPTIONS="
+    --volume $HOME
     --volume $HOME/Downloads:$HOME/Downloads
 "

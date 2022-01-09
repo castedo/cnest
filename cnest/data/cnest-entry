@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ -d $CNEST_PWD ]]; then
+    REALPWD=$(realpath "$CNEST_PWD")
+    INSIDE_DEV_INODE=$(stat --printf=%d:%i "$REALPWD")
+    if [[ "$CNEST_PWD_DEV_INODE" == "$INSIDE_DEV_INODE" ]]; then
+        cd "$CNEST_PWD"
+    else
+    	echo \'$CNEST_PWD\' is a different directory in this container
+    fi
+else
+    echo \'$CNEST_PWD\' does not exist in this container
+fi
+
+if [[ $* ]]; then
+  # non-interactive invocation
+  exec /bin/bash -c "$*"
+else
+  # interactive invocation
+  exec /bin/bash -l
+fi

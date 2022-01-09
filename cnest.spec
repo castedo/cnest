@@ -37,7 +37,7 @@ install bin/guess-container %{buildroot}%{_bindir}/
 install -d %{buildroot}%{_sysconfdir}/cnest/
 install config/default.env %{buildroot}%{_sysconfdir}/cnest/
 install -d %{buildroot}%{_sysconfdir}/cnest/profiles/
-install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest/profiles/
+install config/profiles/only-downloads %{buildroot}%{_sysconfdir}/cnest/profiles/
 
 %files
 %{_bindir}/cnest
@@ -47,7 +47,7 @@ install config/profiles/isolated-docker-library %{buildroot}%{_sysconfdir}/cnest
 %dir %{_sysconfdir}/cnest
 %{_sysconfdir}/cnest/default.env
 %dir %{_sysconfdir}/cnest/profiles
-%{_sysconfdir}/cnest/profiles/isolated-docker-library
+%{_sysconfdir}/cnest/profiles/only-downloads
 %license LICENSE
 
 %changelog

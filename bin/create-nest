@@ -9,9 +9,9 @@ print_usage() {
     echo "  $THIS_SCRIPT profile"
     echo "    to print valid image_tag or image_ref values."
     echo "  $THIS_SCRIPT profile image_tag [container_name]"
-    echo "    for profiles with fully specified repository."
+    echo "    for profiles with repository specified."
     echo "  $THIS_SCRIPT profile image_ref container_name"
-    echo "    for profiles with partially specified repository."
+    echo "    for profiles with no repository specified."
 }
 
 if [[ -z $USER ]]; then
@@ -44,48 +44,49 @@ eval $(
   source $CNEST_DEFAULT_ENV_FILE
   source $PROFILE_FILE
   echo REPOSITORY=\"$REPOSITORY\"
-  echo NEST_BASE=\"$NEST_BASE\"
   echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
 )
 
 if [[ -z "$2" ]]; then
     print_usage
-    if [[ $REPOSITORY == */ ]]; then
-        echo "Pass image_ref to append to $REPOSITORY"
-    else
+    if [[ $REPOSITORY ]]; then
         echo "Pass image_tag as one of:"
         skopeo list-tags docker://$REPOSITORY
+    else
+        echo "Pass image_ref"
     fi
     exit 1
 fi
 
-if [[ -z $NEST_BASE ]]; then
-    NEST_BASE="nest"
-fi
-
-if [[ $REPOSITORY == */ ]]; then
+if [[ $REPOSITORY ]]; then
+    REPO_IMAGE="$REPOSITORY:$2"
+else
     if [[ -z "$3" ]]; then
         print_usage
         exit 1
     fi
-    REPO_IMAGE="$REPOSITORY$2"
-    NEST_IMAGE="$NEST_BASE/$2"
-else
-    REPO_IMAGE="$REPOSITORY:$2"
-    NEST_IMAGE="$NEST_BASE:$2"
+    REPO_IMAGE="$2"
 fi
 
-build-nest-image $REPO_IMAGE $NEST_IMAGE
 set -x
+
 podman create \
     --userns=keep-id \
-    --user $USER \
     --name "$CONTAINER_NAME" \
     --uts=private \
     --hostname $CONTAINER_NAME.$HOSTNAME \
     --cgroups=enabled \
     --pid=host \
+    --workdir "$HOME" \
     $CREATE_OPTIONS \
-    $NEST_IMAGE \
+    $REPO_IMAGE \
     sleep +Inf
+
+# check if /opt/nestkit exists by attempting copy to stdout
+if podman cp $CONTAINER_NAME:/opt/nestkit - >/dev/null 2>&1; then
+    podman start $CONTAINER_NAME
+    podman exec --user root --workdir /opt/nestkit \
+        $CONTAINER_NAME /opt/nestkit/usersetup $USER
+    podman stop $CONTAINER_NAME
+fi
 
