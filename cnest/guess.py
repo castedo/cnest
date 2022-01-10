@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import os, sys, subprocess
 
 def guess_container(pattern):
@@ -18,7 +16,7 @@ def guess_container(pattern):
             except ValueError:
                 pass
         if max_num is None:
-          exit(1)
+            exit(1)
         return "{}-{}".format(pattern, max_num)
 
 def main():
