@@ -57,7 +57,8 @@ podman create \
 if podman cp $CONTAINER_NAME:/opt/nestkit - >/dev/null 2>&1; then
     podman start $CONTAINER_NAME
     podman exec --user root --workdir /opt/nestkit \
-        $CONTAINER_NAME /opt/nestkit/usersetup $USER
+        $CONTAINER_NAME /opt/nestkit/boostuser $USER
+    podman exec --workdir /opt/nestkit $CONTAINER_NAME /opt/nestkit/userinit
     podman stop $CONTAINER_NAME
 fi
 

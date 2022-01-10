@@ -3,36 +3,52 @@ from subprocess import check_call, check_output, CalledProcessError
 
 from cnest.getpath import getpath
 
-def buildah(args):
-    print("+ buildah " + " ".join(args))
-    check_call(['buildah'] + args)
+class Container:
+    def __init__(self, src_img):
+        self.cid = check_output(['buildah', 'from', src_img])
+        self.cid = self.cid.decode("utf-8").rstrip('\n')
+
+    def buildah(self, subcmd, args=[]):
+        cmdlist = ['buildah', subcmd, self.cid] + args
+        print("+ " + " ".join(cmdlist))
+        check_call(cmdlist)
+
+    def append_line(self, line, path, newline=True):
+        sh_cmd = "echo" if newline else "echo -n"
+        sh_cmd += " '{}' >> {}".format(line, path)
+        self.buildah('run', ['sh', '-c', sh_cmd])
 
 def main():
     parser = argparse.ArgumentParser(description="cnestify an image")
     parser.add_argument('src_img', help="source image")
     parser.add_argument('dst_img', help="destination image")
     parser.add_argument('--nestsign', help="nest sign", default='📦')
-    parser.add_argument('--nestkit', help="nestkit directory",
-        default=getpath("nestkit"))
     parser.add_argument('--entry', help="cnest-entry file",
         default=getpath("cnest-entry"))
     parser.add_argument('--profile', help="profile.d directory",
         default=getpath("profile-d"))
+    parser.add_argument('--groups', action='append', help="additional groups")
+    parser.add_argument('--stowhome', help="stowhome target path")
     args = parser.parse_args()
 
-    container = check_output(['buildah', 'from', args.src_img])
-    container = container.decode("utf-8").rstrip('\n')
+    container = Container(args.src_img)
     try:
-        buildah(['copy', container, args.entry, "/usr/bin/"])
-        buildah(['copy', container, args.nestkit, "/opt/nestkit"])
-        buildah(['copy', container, args.profile, "/etc/profile.d/"])
-        sh_cmd = "echo -n {} > /etc/nestsign".format(args.nestsign)
-        buildah(['run', container, 'sh', '-c', sh_cmd])
-        buildah(['commit', container,  args.dst_img])
+        container.buildah('copy', [args.entry, "/usr/bin/"])
+        container.buildah('copy', [args.profile, "/etc/profile.d/"])
+        container.append_line(args.nestsign, "/etc/nestsign", newline=False)
+        container.buildah('copy', [getpath("nestkit"), "/opt/nestkit"])
+        if args.groups:
+            container.append_line("passwd --delete $1", "/opt/nestkit/boostuser")
+            line = "usermod --append --groups {} $1".format(",".join(args.groups))
+            container.append_line(line, "/opt/nestkit/boostuser")
+        if args.stowhome:
+            line = "ln --symbolic {} $HOME/.stowhome".format(args.stowhome)
+            container.append_line(line, "/opt/nestkit/userinit")
+        container.buildah('commit', [args.dst_img])
     except CalledProcessError:
         exit(1)
     finally:
-        buildah(['rm', container])
+        container.buildah('rm')
 
 if __name__ == '__main__':
     main()

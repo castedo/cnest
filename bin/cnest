@@ -21,11 +21,11 @@ else
   CONTAINER=$PATTERN
 fi
 
-if [[ -z "$COMMAND" ]]; then
-  # check if cnest-entry exists by trying to copy from container to stdout
-  if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
-    COMMAND=/usr/bin/cnest-entry
-  else
+# check if cnest-entry exists by trying to copy from container to stdout
+if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
+  COMMAND="/usr/bin/cnest-entry $COMMAND"
+else
+  if [[ -z $COMMAND ]]; then
     COMMAND="/bin/bash --login"
   fi
 fi

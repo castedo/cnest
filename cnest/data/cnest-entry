@@ -17,5 +17,5 @@ if [[ $* ]]; then
   exec /bin/bash -c "$*"
 else
   # interactive invocation
-  exec /bin/bash -l
+  exec /bin/bash --login
 fi

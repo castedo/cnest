@@ -1,0 +1,2 @@
+#!/bin/bash
+cp --recursive --no-clobber --archive /etc/skel/. "$HOME"

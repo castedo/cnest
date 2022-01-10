@@ -1,0 +1,5 @@
+#!/bin/bash
+if ! id -u "$1" &>/dev/null; then
+    echo parameter passed is invalid user: $1
+    exit 22 # EINVAL Invalid argument
+fi
