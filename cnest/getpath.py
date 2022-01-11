@@ -4,6 +4,9 @@ from pkg_resources import resource_filename
 def getpath(name):
     return resource_filename(__name__, "data/" + name)
 
+def print_perm_defs_path():
+    print(getpath('default-env.sh'))
+
 def main():
     parser = argparse.ArgumentParser(
         description="get path to cnest package data",

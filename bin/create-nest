@@ -33,11 +33,15 @@ if [[ -z $CONTAINER_NAME ]]; then
     exit 1
 fi
 
-eval $(
-  source $(python3 -m cnest.getpath default-env.sh)
-  source $PROFILE_DIR/$PROFILE
-  echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
+ERRMSG="Error reading permissions profile $PROFILE_DIR/$PROFILE"
+trap "echo $ERRMSG" EXIT
+ASSIGNMENT=$(
+    set -o errexit
+    source $PROFILE_DIR/$PROFILE
+    echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
 )
+trap - EXIT
+eval $ASSIGNMENT
 
 set -x
 

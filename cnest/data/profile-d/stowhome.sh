@@ -1,3 +1,3 @@
-if [ -x "$HOME/.stowhome" ]; then
-    "$HOME/.stowhome"
+if [ -x "$HOME/.stow_profile" ]; then
+    "$HOME/.stow_profile"
 fi

@@ -28,7 +28,6 @@ def main():
     parser.add_argument('--profile', help="profile.d directory",
         default=getpath("profile-d"))
     parser.add_argument('--groups', action='append', help="additional groups")
-    parser.add_argument('--stowhome', help="stowhome target path")
     args = parser.parse_args()
 
     container = Container(args.src_img)
@@ -41,9 +40,6 @@ def main():
             container.append_line("passwd --delete $1", "/opt/nestkit/boostuser")
             line = "usermod --append --groups {} $1".format(",".join(args.groups))
             container.append_line(line, "/opt/nestkit/boostuser")
-        if args.stowhome:
-            line = "ln --symbolic {} $HOME/.stowhome".format(args.stowhome)
-            container.append_line(line, "/opt/nestkit/userinit")
         container.buildah('commit', [args.dst_img])
     except CalledProcessError:
         exit(1)
