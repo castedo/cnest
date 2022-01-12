@@ -151,7 +151,7 @@ is convenient.
 export CNEST_REPOSITORY=myfavrepo
 create-nest-by-tag some_profile
 ```
-to list available OSI image tag names in myfavrepo, or
+to list available [OCI](https://opencontainers.org/) image tag names in myfavrepo, or
 
 ```
 creat-nest-by-tag some_profile foo-2

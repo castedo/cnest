@@ -5,4 +5,5 @@ if ! id -u "$1" &>/dev/null; then
 fi
 mkdir --parents /home/$1
 chown $1: /home/$1
+usermod --home /home/$1 $1
 passwd --delete $1
