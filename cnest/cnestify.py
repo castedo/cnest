@@ -37,7 +37,6 @@ def main():
         container.append_line(args.nestsign, "/etc/nestsign", newline=False)
         container.buildah('copy', [getpath("nestkit"), "/opt/nestkit"])
         if args.groups:
-            container.append_line("passwd --delete $1", "/opt/nestkit/boostuser")
             line = "usermod --append --groups {} $1".format(",".join(args.groups))
             container.append_line(line, "/opt/nestkit/boostuser")
         container.buildah('commit', [args.dst_img])

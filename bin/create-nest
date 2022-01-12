@@ -13,22 +13,20 @@ print_usage() {
 PROFILE=$1
 REPO_IMAGE=$2
 CONTAINER_NAME=$3
-
+PROFILE_DIR=$HOME/.config/cnest/profiles
 if [[ -z $USER ]]; then
   USER=$(id -un)
-fi
-
-PROFILE_DIR=$HOME/.config/cnest/profiles
-if [[ ! -d $PROFILE_DIR ]]; then
-    mkdir -p $PROFILE_DIR
-    cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
 fi
 
 if [[ -z $CONTAINER_NAME ]]; then
     print_usage
     if [[ -z $PROFILE ]]; then
+        if [[ ! -d $PROFILE_DIR ]]; then
+            mkdir -p $PROFILE_DIR
+            cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
+        fi
         echo Profiles available from $PROFILE_DIR:
-        ls $PROFILE_DIR
+        ls --hide="_*" $PROFILE_DIR
     fi
     exit 1
 fi
@@ -37,7 +35,8 @@ ERRMSG="Error reading permissions profile $PROFILE_DIR/$PROFILE"
 trap "echo $ERRMSG" EXIT
 ASSIGNMENT=$(
     set -o errexit
-    source $PROFILE_DIR/$PROFILE
+    cd "$PROFILE_DIR"
+    source "$PROFILE"
     echo CREATE_OPTIONS=\"$CREATE_OPTIONS\"
 )
 trap - EXIT
@@ -52,7 +51,6 @@ podman create \
     --hostname $CONTAINER_NAME.$HOSTNAME \
     --cgroups=enabled \
     --pid=host \
-    --workdir "$HOME" \
     $CREATE_OPTIONS \
     $REPO_IMAGE \
     sleep +Inf
@@ -62,7 +60,8 @@ if podman cp $CONTAINER_NAME:/opt/nestkit - >/dev/null 2>&1; then
     podman start $CONTAINER_NAME
     podman exec --user root --workdir /opt/nestkit \
         $CONTAINER_NAME /opt/nestkit/boostuser $USER
-    podman exec --workdir /opt/nestkit $CONTAINER_NAME /opt/nestkit/userinit
+    podman exec --user $USER --workdir /opt/nestkit \
+        $CONTAINER_NAME /opt/nestkit/userinit
     podman stop $CONTAINER_NAME
 fi
 

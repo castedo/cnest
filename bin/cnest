@@ -2,13 +2,17 @@
 
 if [[ -z "$1" ]]; then
   THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
-  echo "Usage: $THIS_SCRIPT container_pattern [command]"
+  echo "Usage:"
+  echo "  [USER=user] $THIS_SCRIPT container_pattern [command]"
   exit 1
 fi
 
 PATTERN="$1"
 shift
 COMMAND="$@"
+if [[ -z $USER ]]; then
+  USER=$(id -un)
+fi
 
 if command -v guess-container &>/dev/null; then
   # if guess-container can be run, then guess full container name
@@ -38,6 +42,8 @@ podman exec -it \
   -e TERM \
   -e DISPLAY \
   --detach-keys="" \
+  --user $USER \
+  --workdir /home/$USER \
   -e CNEST_PWD="$PWD" \
   -e CNEST_PWD_DEV_INODE=$(stat --printf=%d:%i "$REALPWD") \
   $CONTAINER \

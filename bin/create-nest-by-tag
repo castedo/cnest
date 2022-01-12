@@ -5,10 +5,7 @@ print_usage() {
     THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
     echo "Usage:"
     echo "  export CNEST_REPOSITORY=myrepository"
-    echo "  $THIS_SCRIPT profile"
-    echo "    to print valid image tags if remote repository."
-    echo "    Run create-nest for a list of profiles."
-    echo "  $THIS_SCRIPT profile image_tag [container_name]"
+    echo "  $THIS_SCRIPT image_tag [container_name]"
     echo "    to build nest container by tag."
 }
 
@@ -22,22 +19,23 @@ if [[ "$CNEST_REPOSITORY" != localhost/* && "$CNEST_REPOSITORY" != *\.*/* ]]; th
     exit 1
 fi
 
-PROFILE=$1
-TAG=$2
-CONTAINER_NAME=$3
+TAG=$1
+CONTAINER_NAME=$2
 if [[ -z $CONTAINER_NAME ]]; then
     CONTAINER_NAME=$TAG
 fi
+PROFILE=${TAG%-*}
 
 if [[ -z "$TAG" ]]; then
     print_usage
-    if [[ "$PROFILE" ]]; then
-        echo "Pass image_tag of local image:"
-        podman images $CNEST_REPOSITORY:
-        if [[ "$CNEST_REPOSITORY" != localhost/* ]]; then
-            echo "Or from remote repository:"
-            skopeo list-tags docker://$CNEST_REPOSITORY
+    echo "Pass image_tag of local image:"
+    podman images $CNEST_REPOSITORY:
+    if [[ "$CNEST_REPOSITORY" != localhost/* ]]; then
+        echo "Or from remote repository:"
+        if [[ $CNEST_REPOSITORY_FULLNAME ]]; then
+            CNEST_REPOSITORY=$CNEST_REPOSITORY_FULLNAME
         fi
+        skopeo list-tags docker://$CNEST_REPOSITORY
     fi
     exit 1
 fi
