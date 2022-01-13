@@ -1,8 +1,9 @@
-cnest installation
-==================
+Installation
+============
 
-[![Copr build status](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png)
-](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/)
+<a class="reference external" href="https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/">
+  <img src="https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png" alt="Copr build status"/>
+</a>
 
 Please [Email me](mailto:castedo@castedo.com) if you start using cnest or
 create-nest and want backwards compatibility maintained.

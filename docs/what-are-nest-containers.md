@@ -1,6 +1,17 @@
 What are nest containers?
 =========================
-<img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Nest_-_Bird_%28PSF%29.png/260px-Nest_-_Bird_%28PSF%29.png" alt="Bird Nest">
+<style>
+.img-bird-nest {
+    float: right;
+    height: 192px !important;
+}
+</style>
+```{image} _static/bird-nest-260px.png
+:alt: Bird Nest
+:class: img-bird-nest
+:height: 128px
+:align: right
+```
 
 Nest containers are [OCI](https://opencontainers.org/) containers used as
 contained user environments for interactive shell sessions.
