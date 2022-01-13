@@ -1,18 +1,18 @@
 Name: cnest
-Version: 1.3
-Release: 1%{?dist}
+Version: 1.4
+Release: 0%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
 URL: https://github.com/castedo/cnest
 Source0: %{name}-%{version}.tar.gz
 
-%define __brp_mangle_shebangs /usr/bin/true
-
 BuildArch: noarch
 Requires: bash, coreutils
 Requires: podman, buildah, skopeo
-Requires: python3
+BuildRequires: python3-devel, python3-setuptools
+
+%?python_enable_dependency_generator
 
 %description
 Simple scripts for personalized persistent controlled containers designed
@@ -25,29 +25,24 @@ to be:
   to the container (isolation by default)
 
 %prep
-%setup -q
+%autosetup -n cnest-%{version}
+
+%build
+%py3_build
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-install bin/cnest %{buildroot}%{_bindir}/
-install bin/build-nest-image %{buildroot}%{_bindir}/
-install bin/create-nest %{buildroot}%{_bindir}/
-install bin/guess-container %{buildroot}%{_bindir}/
-
-install -d %{buildroot}%{_sysconfdir}/cnest/
-install config/default.env %{buildroot}%{_sysconfdir}/cnest/
-install -d %{buildroot}%{_sysconfdir}/cnest/profiles/
-install config/profiles/only-downloads %{buildroot}%{_sysconfdir}/cnest/profiles/
+%py3_install
 
 %files
 %{_bindir}/cnest
-%{_bindir}/build-nest-image
+%{_bindir}/cnestify
 %{_bindir}/create-nest
+%{_bindir}/create-nest-by-tag
+%{_bindir}/cnest-permission-definitions
 %{_bindir}/guess-container
-%dir %{_sysconfdir}/cnest
-%{_sysconfdir}/cnest/default.env
-%dir %{_sysconfdir}/cnest/profiles
-%{_sysconfdir}/cnest/profiles/only-downloads
+%{python3_sitelib}/cnest/
+%{python3_sitelib}/cnest-%{version}*
+
 %license LICENSE
 
 %changelog
