@@ -1,4 +1,4 @@
-import argparse
+import argparse, tempfile
 from subprocess import run, CalledProcessError, PIPE, DEVNULL
 
 from cnest.getpath import getpath
@@ -38,12 +38,13 @@ def build_from_image(args):
     finally:
         buildah(['rm', container])
 
-def build_using_dockerfile(image_name):
-    """return image ID overwritten if any"""
-    cmd = ['inspect', '--type', 'image', '--format', '{{.FromImageID}}', image_name]
-    old = buildah_output(cmd, echo=False, check=False)
-    buildah(['bud', '--layers', '--tag', image_name])
-    return old
+def build_using_dockerfile():
+    with tempfile.TemporaryDirectory() as tempdir:
+        iidpath = "{}/iidfile".format(tempdir)
+        buildah(['bud', '--layers', '--iidfile', iidpath])
+        with open(iidpath) as f:
+            iid = f.read()
+    return iid
 
 def main():
     parser = argparse.ArgumentParser(description="cnestify an image")
@@ -58,14 +59,9 @@ def main():
     parser.add_argument('--groups', action='append', help="additional groups")
     args = parser.parse_args()
 
-    old = None
     if not args.from_image:
-        # want to buildah bud with image_name so that cached layers are not deleted
-        old = build_using_dockerfile(args.image_name)
-        args.from_image = args.image_name
+        args.from_image = build_using_dockerfile()
     build_from_image(args)
-    if old:
-        buildah(['rmi', old], echo=False)
 
 
 if __name__ == '__main__':
