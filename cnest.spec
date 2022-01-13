@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.4
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,17 @@ to be:
 %license LICENSE
 
 %changelog
+* Thu Jan 13 2022 Castedo Ellerman <castedo@castedo.com> 1.4-1
+- rpm using python package install
+- fix bug caused by temp use of tags
+- cnestify build from Dockerfile; robustness fixes
+- bug fixes; more predictable behavior
+- better error handling on permission profiles
+- fix bugs; add groups and stowhome cnestify options
+- port cnestify-image to Python
+- pip installable
+- no repository in profiles; new create-nest-by-tag
+- new cnestify-image; elim build-nest-image
 * Fri Jan 07 2022 Castedo Ellerman <castedo@castedo.com> 1.3-1
 - Eliminate OSVIRTALIAS
 - make cnest provide pwd and inode to container session
