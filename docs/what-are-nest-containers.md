@@ -30,14 +30,14 @@ As OCI containers, nest containers have three key features:
 * persistent
 * controlled
 
-### Personalized
+## Personalized
 
 Broadly distributed OCI container images generally are not personalized to
 specific user accounts. Users who want to enter shell environment as the
 same non-root user account want a user account in the container to match
 the local user account of the hosting computer.
 
-### Persistent
+## Persistent
 
 Containers are usually non-persistent and used for services running in the
 background. But for interactive shell sessions, it is convenient to let
@@ -48,7 +48,7 @@ For instance, a user can interactively experiment with running yum,
 apt-get, and in general change the contained file system across process
 terminations and reboots.
 
-### Controlled
+## Controlled
 
 Like users of flatpaks, users of nest containers can have different
 preferences for how much of the host system is shared with the contained

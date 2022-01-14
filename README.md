@@ -1,5 +1,7 @@
 [![Copr build status](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png)
 ](https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/)
+[![Read the Docs status](https://readthedocs.org/projects/cnest/badge/?version=latest&style=flat-square)
+](https://cnest.readthedocs.io/en/latest/?badge=latest)
 
 cnest & create-nest
 ===================
