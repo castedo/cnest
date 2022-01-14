@@ -9,10 +9,10 @@ Please [Email me](mailto:castedo@castedo.com) if you start using cnest or
 create-nest and want backwards compatibility maintained.
 
 
-RHEL 8
-------
+RHEL 8 &amp; Fedora
+-------------------
 
-If you use a RHEL 8 based distro like me, then you can
+If you use RHEL 8 or Fedora 35, then you can
 
 ```
 yum copr enable castedo/cnest
@@ -21,23 +21,12 @@ yum install cnest
 [Email me](mailto:castedo@castedo.com) if you want a copr package for another distro.
 
 
-Fedora
-------
-
-I've built the RPM package to be Fedora friendly.
-Chances are you can do the following:
-```
-yum install https://github.com/castedo/cnest/releases/download/cnest-1.3-1/cnest-1.3-1.el8.noarch.rpm
-```
-Check the github releases to make sure this rpm URL is the latest.
-
-
 pip install
 -----------
 
-To install the latest scripts from github:
+To install version 1.4 via pip from github:
 
 ```
-python3 -m pip install git+https://github.com/castedo/cnest.git
+python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.4-1
 ```
 
