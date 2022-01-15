@@ -43,7 +43,6 @@ podman exec -it \
   -e DISPLAY \
   --detach-keys="" \
   --user $USER \
-  --workdir /home/$USER \
   -e CNEST_PWD="$PWD" \
   -e CNEST_PWD_DEV_INODE=$(stat --printf=%d:%i "$REALPWD") \
   $CONTAINER \
