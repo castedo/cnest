@@ -14,7 +14,7 @@ RHEL 8 &amp; Fedora
 
 If you use RHEL 8 or Fedora 35, then you can
 
-```txt
+```text
 yum copr enable castedo/cnest
 yum install cnest
 ```
@@ -26,7 +26,7 @@ pip install
 
 To install version 1.4 via pip from github:
 
-```txt
+```text
 python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.4-1
 ```
 

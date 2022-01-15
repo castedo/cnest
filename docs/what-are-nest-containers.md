@@ -1,17 +1,5 @@
 What are nest containers?
 =========================
-<style>
-.img-bird-nest {
-    float: right;
-    height: 192px !important;
-}
-</style>
-```{image} _static/bird-nest-260px.png
-:alt: Bird Nest
-:class: img-bird-nest
-:height: 128px
-:align: right
-```
 
 Nest containers are [OCI](https://opencontainers.org/) containers used as
 contained user environments for interactive shell sessions.
@@ -20,15 +8,17 @@ Nest containers are similar to [flatpaks](https://flatpak.org/) and
 [conda](https://conda.io/) environments. But flatpaks are optimized for
 [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface) desktop
 applications.
-Conda is optimized for portable software packages across Windows, macOS and
-Linux without resorting to [OS-level
-virtualization](https://en.wikipedia.org/wiki/OS-level_virtualization).
+Conda is optimized for portable software packages running natively across
+Windows, macOS and Linux.
+In order to run on Windows and macOS, conda can not rely on [OS-level
+virtualization](https://en.wikipedia.org/wiki/OS-level_virtualization)
+which is needed to run containers.
 
-As OCI containers, nest containers have three key features:
+As OCI containers, nest containers have three key features of being:
 
-* personalized
-* persistent
-* controlled
+1. personalized
+1. persistent
+1. controlled
 
 ## Personalized
 
