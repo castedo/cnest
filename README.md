@@ -3,9 +3,12 @@
 [![Read the Docs status](https://readthedocs.org/projects/cnest/badge/?version=latest&style=flat-square)
 ](https://cnest.readthedocs.io/en/latest/?badge=latest)
 
-cnest & create-nest
-===================
-<img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Nest_-_Bird_%28PSF%29.png/260px-Nest_-_Bird_%28PSF%29.png" alt="Bird Nest">
+cnest
+=====
+<img align="right" src="docs/_static/bird-nest-260px.png">
+
+Visit [](https://cnest.readthedocs.io/) for documentation, installation
+instructions, how-to guides, and more.
 
 [cnest](bin/cnest) is a simple wrapper script of podman for entering
 [nest containers](docs/what-are-nest-containers.md).
@@ -17,69 +20,14 @@ creating [nest containers](docs/what-are-nest-containers.md).
 crest-nest for choosing image and container names from tags in a single
 repository.
 
-[What are nest containers?](docs/what-are-nest-containers.md)
+cnestify is a Python program for creating images with enhanced functionality,
+including features enabled by cnest.
 
 
-How to use
-----------
+Permissions profiles
+--------------------
 
-After [installation](docs/install.md), you can
-```
-create-nest
-```
-to see available profiles. If this is the first time
-running `create-nest` then a profile `only-downloads` has been copied to
-`~/.config/cnest/profiles` for convenienice.
-
-```
-mkdir -p ~/Downloads
-create-nest only-downloads debian mynest
-```
-This creates a new container named `mynest` which is
-highly isolated and only shares `~/Downloads` with the host.
-
-To enter this new nest container do:
-```
-cnest mynest
-```
-
-## Getting more out of cnest
-
-To take full advantage of the extra features of `cnest` an image need to have
-some extra features. The `cnestify-image` takes a base image and creates a new
-images with extra features enabled for `cnest`.
-
-```
-cnestify-image fedora fedplus
-```
-
-now there's a new `localhost/fedplus` image with which you can create a new
-nest:
-
-```
-create-nest only-downloads fedplus mynest2
-```
-
-Now entering the container will benefit from some extra goodies:
-
-```
-cd ~/Downloads
-cnest mynest2
-```
-
-* Notice that `cnest` detected that you were in `~/Downloads` and that
-  directory is the same inside the nest container. So `cnest` kept you in the
-  same directory.
-* You also have an emoji to let you know you're inside a container.
-* Various distro extras like coloring have been enabled because the home
-  directory has been populated with distro default home files like `.bashrc`
-  instead of being an empty home directory.
-
-
-Profiles
---------
-
-A profile determines what
+A permissions profile determines what
 permissions, resources and capabilities to expose to a created nest container.
 In the cnest 1.x version series, a profile is just a shell script that will
 be sourced by `create-nest`. But this is a proof-of-concept hack and cnest
@@ -106,7 +54,7 @@ cnest
   * /usr/bin/cnest-entry in the container if it exists OR
   * /bin/bash --login
 * will automatically keep you in your currently directory if the container
-  image has been enhanced with `cnestify-image` and your currently directory is
+  image has been enhanced with `cnestify` and your currently directory is
   also shared with the nest container with the same path.
 * you can type a container name without a version suffix (e.g. type "webdev"
   and it guesses you want a container named "webdev-5")
