@@ -5,7 +5,7 @@ print_usage() {
     THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
     echo "Usage:"
     echo "  $THIS_SCRIPT"
-    echo "    to print list of available profiles."
+    echo "    to print list of available permission profiles."
     echo "  $THIS_SCRIPT profile image_ref container_name"
     echo "    to build nest container."
 }
@@ -25,7 +25,7 @@ if [[ -z $CONTAINER_NAME ]]; then
             mkdir -p $PROFILE_DIR
             cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
         fi
-        echo Profiles available from $PROFILE_DIR:
+        echo Permission profiles available from $PROFILE_DIR:
         ls --hide="_*" $PROFILE_DIR
     fi
     exit 1

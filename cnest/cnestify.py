@@ -20,7 +20,7 @@ def buildah_output(args, echo=True, **more):
 def append_line(line, container, path, newline=True):
     sh_cmd = "echo" if newline else "echo -n"
     sh_cmd += " '{}' >> {}".format(line, path)
-    buildah(['run', container, 'sh', '-c', sh_cmd])
+    buildah(['run', '--user=root', container, 'sh', '-c', sh_cmd])
 
 def build_from_image(args):
     container = buildah_output(['from', args.from_image])

@@ -7,9 +7,11 @@ if [[ -d $CNEST_PWD ]]; then
         cd "$CNEST_PWD"
     else
     	echo \'$CNEST_PWD\' is a different directory in this container
+        cd
     fi
 else
     echo \'$CNEST_PWD\' does not exist in this container
+    cd
 fi
 
 if [[ $* ]]; then
