@@ -48,6 +48,7 @@ The `cnest` package
 * [](install.md)
 * [](cnest-tools.md)
 * [](permission-profiles.md)
+* [](conclusions.md)
 
 
 ```{toctree}
@@ -59,6 +60,7 @@ hidden:
 install.md
 cnest-tools.md
 permission-profiles.md
+conclusions.md
 ```
 
 
@@ -66,6 +68,7 @@ How-to Guides
 -------------
 
 * [](how-to-share-partial-home.md)
+* [](how-to-rtd.md)
 
 ```{toctree}
 ---
@@ -74,5 +77,6 @@ maxdepth: 2
 hidden:
 ---
 how-to-share-partial-home.md
+how-to-rtd.md
 ```
 

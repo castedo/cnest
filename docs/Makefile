@@ -1,10 +1,15 @@
+ifdef RTD_VENV_PATH
+    # if a Read the Docs virtual environment is setup, then use it
+    PYBINDIR = ${RTD_VENV_PATH}/bin/
+endif
+
 # Minimal makefile for Sphinx documentation
 #
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
-SPHINXBUILD   ?= python3 -m sphinx
+SPHINXBUILD   ?= $(PYBINDIR)python3 -m sphinx
 SOURCEDIR     = .
 BUILDDIR      = _build
 
