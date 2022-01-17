@@ -48,6 +48,7 @@ The `cnest` package
 * [](install.md)
 * [](cnest-tools.md)
 * [](permission-profiles.md)
+* [](tips.md)
 * [](conclusions.md)
 
 
@@ -60,6 +61,7 @@ hidden:
 install.md
 cnest-tools.md
 permission-profiles.md
+tips.md
 conclusions.md
 ```
 
