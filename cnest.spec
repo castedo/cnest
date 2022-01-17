@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.5
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,10 @@ to be:
 %license LICENSE
 
 %changelog
+* Mon Jan 17 2022 Castedo Ellerman <castedo@castedo.com> 1.5-1
+- cd to home when dir not match; cnestify run as root
+- remove workdir setting in cnest (castedo@castedo.com)
+
 * Thu Jan 13 2022 Castedo Ellerman <castedo@castedo.com> 1.4-1
 - rpm using python package install
 - fix bug caused by temp use of tags
