@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,9 @@ to be:
 %license LICENSE
 
 %changelog
+* Mon Jan 17 2022 Castedo Ellerman <castedo@castedo.com> 1.5-2
+- make rpm and Python package versions equal (castedo@castedo.com)
+
 * Mon Jan 17 2022 Castedo Ellerman <castedo@castedo.com> 1.5-1
 - cd to home when dir not match; cnestify run as root
 - remove workdir setting in cnest (castedo@castedo.com)
