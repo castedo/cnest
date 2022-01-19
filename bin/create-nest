@@ -18,13 +18,14 @@ if [[ -z $USER ]]; then
   USER=$(id -un)
 fi
 
+if [[ ! -d $PROFILE_DIR ]]; then
+    mkdir -p $PROFILE_DIR
+    cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
+fi
+
 if [[ -z $CONTAINER_NAME ]]; then
     print_usage
     if [[ -z $PROFILE ]]; then
-        if [[ ! -d $PROFILE_DIR ]]; then
-            mkdir -p $PROFILE_DIR
-            cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
-        fi
         echo Permission profiles available from $PROFILE_DIR:
         ls --hide="_*" $PROFILE_DIR
     fi

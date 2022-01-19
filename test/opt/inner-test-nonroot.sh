@@ -4,6 +4,7 @@ INNER_CONTAINER="nested"
 set -x
 
 mkdir -p ~/Downloads
-create-nest isolated-docker-library debian $INNER_CONTAINER
+create-nest || true # ignore https://github.com/castedo/cnest/issues/10
+create-nest only-downloads debian $INNER_CONTAINER
 cnest $INNER_CONTAINER echo PASS
 podman stop $INNER_CONTAINER
