@@ -17,7 +17,7 @@ This guide is for the use case of contained user environments for interactive
 shell sessions.
 Containers used in this way are referred to here as [nest
 containers](what-are-nest-containers.md).
-Read [What are next containers?](what-are-nest-containers.md) to learn more.
+Read [What are nest containers?](what-are-nest-containers.md) to learn more.
 
 If you have any suggestions or additions for this guide to nest containers,
 [start a discussion](https://github.com/castedo/cnest/discussions).

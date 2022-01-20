@@ -134,7 +134,7 @@ Dockerfile  requirements.txt
 ```
 
 The `cnestify` is run on the `Dockerfile` in the current directory. A "nest sign" is
-specified so that is may appear at the command line prompt inside next containers created
+specified so that is may appear at the command line prompt inside nest containers created
 from this image.
 
 ```text
