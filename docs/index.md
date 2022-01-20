@@ -42,6 +42,22 @@ other-tools.md
 ```
 
 
+How-to Guides
+-------------
+
+* [](how-to-share-partial-home.md)
+* [](how-to-rtd.md)
+
+```{toctree}
+---
+caption: How-to Guides
+maxdepth: 2
+hidden:
+---
+how-to-share-partial-home.md
+how-to-rtd.md
+```
+
 The `cnest` package
 -------------------
 
@@ -63,22 +79,5 @@ cnest-tools.md
 permission-profiles.md
 tips.md
 conclusions.md
-```
-
-
-How-to Guides
--------------
-
-* [](how-to-share-partial-home.md)
-* [](how-to-rtd.md)
-
-```{toctree}
----
-caption: How-to Guides
-maxdepth: 2
-hidden:
----
-how-to-share-partial-home.md
-how-to-rtd.md
 ```
 

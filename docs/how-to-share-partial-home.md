@@ -14,7 +14,7 @@ Permission profiles available from /home/castedo/.config/cnest/profiles:
 only-downloads
 [castedo@nasa ~]$ 
 ```
-to see available profiles. If this is the first time
+to see available permission profiles. If this is the first time
 running `create-nest` then a profile `only-downloads` has been copied to
 `~/.config/cnest/profiles` for convenienice.
 
