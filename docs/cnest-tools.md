@@ -45,19 +45,19 @@ A container does not have to be created with `create-nest`.
 create-nest
 -----------
 
-The script `create-nest` is for creating "nests", that is
-containers created from a local-only personalized "nest" container image.
+The script `create-nest` is for creating a container.
+A permissions profile must be given to specify what `podman create` options to
+add, such as home directories to share.
 
-A profile is specified when creating a nest. A profile file defines:
+Optionally, if the image has the following scripts, they will be run **in
+the new container** upon creation:
 
-* from which container image repository to customize a local "nest" image and container
-
-* what `podman create` options to add, such as home directories to share
+* /opt/nestkit/boostuser (run as root, username passed as parameter)
+* /opt/nestkit/userinit (run as the user)
 
 ### Requirements for images pulled from repositories
 
-* `sleep +Inf` is valid commmand to run
-* either `useradd` is installed or `/usr/sbin/cnest-user-setup` exists
+* `sleep inf` is valid commmand to run
 
 
 create-nest-by-tag

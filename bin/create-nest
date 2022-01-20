@@ -54,7 +54,7 @@ podman create \
     --pid=host \
     $CREATE_OPTIONS \
     $REPO_IMAGE \
-    sleep +Inf
+    sleep inf
 
 # check if /opt/nestkit exists by attempting copy to stdout
 if podman cp $CONTAINER_NAME:/opt/nestkit - >/dev/null 2>&1; then
