@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.6
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,16 @@ to be:
 %license LICENSE
 
 %changelog
+* Sat Apr 02 2022 Castedo Ellerman <castedo@castedo.com> 1.6-1
+- move change of container directory logic into host cnest; 1.6
+  (castedo@castedo.com)
+- typos (castedo@castedo.com)
+- add doc section about cnestify (castedo@castedo.com)
+- fix out of date create-nest documentation (castedo@castedo.com)
+- Fix issue #10; make smoketest less annoyingly slow (castedo@castedo.com)
+- some tips-n-tricks for the docs (castedo@castedo.com)
+- update pip install directions version (castedo@castedo.com)
+
 * Mon Jan 17 2022 Castedo Ellerman <castedo@castedo.com> 1.5-2
 - make rpm and Python package versions equal (castedo@castedo.com)
 
