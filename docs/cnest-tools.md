@@ -28,15 +28,12 @@ cnest
   and it guesses you want a container named "webdev-5")
 * will stop the container if there are no more podman exec sessions (of which
   cnest sessions are one case)
+* will automatically keep you in your current directory if
+  your current directory is also shared with the nest container
 * look at the podman exec arguments in
   [the script](https://github.com/castedo/cnest/blob/main/bin/cnest)
   for the rest of the niceties
 
-### Enhancements when used with `cnestify`
-
-* will automatically keep you in your currently directory if the container
-  image has been enhanced with `cnestify` and your currently directory is
-  also shared with the nest container with the same path.
 
 ### Container requirements
 
@@ -78,7 +75,7 @@ Some of the features enables by `cnestify` are:
 
 * add a symbol to the prompt inside the container
 * add groups to the user inside the container
-* override which /usr/bin/cnest-entry script should be run by `cnest`
+* hook in a /usr/bin/cnest-entry script to be run by `cnest`
 * override what `/etc/profile.d/` scripts should be added
 
 Run `cnestify` or look at one of the How-to guides for more details on how to

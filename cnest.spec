@@ -1,6 +1,6 @@
 Name: cnest
-Version: 1.5
-Release: 2%{?dist}
+Version: 1.6
+Release: 0%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT

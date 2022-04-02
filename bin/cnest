@@ -26,7 +26,7 @@ else
 fi
 
 # check if cnest-entry exists by trying to copy from container to stdout
-if podman cp $CONTAINER:/usr/bin/cnest-entry - &>/dev/null; then
+if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
   COMMAND="/usr/bin/cnest-entry $COMMAND"
 else
   if [[ -z $COMMAND ]]; then
@@ -36,15 +36,28 @@ fi
 
 podman start $CONTAINER
 
-REALPWD=$(realpath "$PWD")
+WORKDIR="/home/$USER"
+
+# Determine whether current dir is same inside container
+SUBCMD="stat --printf=%d:%i \"\$(realpath \"$PWD\")\""
+if NEST_DEV_INODE=$(podman exec $CONTAINER bash -c "$SUBCMD" 2>/dev/null); then
+  HOST_DEV_INODE=$(stat --printf=%d:%i "$(realpath "$PWD")")
+  if [[ "$NEST_DEV_INODE" == "$HOST_DEV_INODE" ]]; then
+    WORKDIR=$PWD
+  else
+    echo \'$PWD\' is a different directory in the container
+  fi
+else
+  echo \'$PWD\' does not exist in the container
+fi
+
 podman exec -it \
   -e LANG \
   -e TERM \
   -e DISPLAY \
   --detach-keys="" \
   --user $USER \
-  -e CNEST_PWD="$PWD" \
-  -e CNEST_PWD_DEV_INODE=$(stat --printf=%d:%i "$REALPWD") \
+  --workdir "$WORKDIR" \
   $CONTAINER \
   $COMMAND
 

@@ -25,7 +25,8 @@ def append_line(line, container, path, newline=True):
 def build_from_image(args):
     container = buildah_output(['from', args.from_image])
     try:
-        buildah(['copy', container, args.entry, "/usr/bin/"])
+        if args.entry:
+            buildah(['copy', container, args.entry, "/usr/bin/"])
         buildah(['copy', container, args.profile_d, "/etc/profile.d/"])
         append_line(args.nestsign, container, "/etc/nestsign", newline=False)
         buildah(['copy', container, getpath("nestkit"), "/opt/nestkit"])
