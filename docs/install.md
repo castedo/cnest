@@ -27,7 +27,7 @@ pip install
 To install version 1.5 via pip from github:
 
 ```text
-python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.5-2
+python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.6-1
 ```
 
 You can avoid installing it as root by doing a local user install by adding the
