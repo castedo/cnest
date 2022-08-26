@@ -53,8 +53,7 @@ def main():
     parser.add_argument('--from', help="use source image instead of Dockerfile",
         dest="from_image")
     parser.add_argument('--nestsign', help="nest sign", default='📦')
-    parser.add_argument('--entry', help="cnest-entry file",
-        default=getpath("cnest-entry"))
+    parser.add_argument('--entry', help="cnest-entry file")
     parser.add_argument('--profile-d', help="profile.d directory",
         default=getpath("profile.d"), metavar="DIR")
     parser.add_argument('--groups', action='append', help="additional groups")
