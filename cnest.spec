@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,10 @@ to be:
 %license LICENSE
 
 %changelog
+* Sat Aug 27 2022 Castedo Ellerman <castedo@castedo.com> 1.7-2
+- fix invalid --entry param default (issue #16) (castedo@castedo.com)
+- Update install.md (castedo@castedo.com)
+
 * Sat Apr 02 2022 Castedo Ellerman <castedo@castedo.com> 1.6-1
 - move change of container directory logic into host cnest; 1.6
   (castedo@castedo.com)
