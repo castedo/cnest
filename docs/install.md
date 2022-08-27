@@ -9,10 +9,10 @@ Please [Email me](mailto:castedo@castedo.com) if you start using cnest or
 create-nest and want backwards compatibility maintained.
 
 
-RHEL 8 &amp; Fedora
+RHEL &amp; Fedora
 -------------------
 
-If you use RHEL 8 or Fedora 35, then you can
+If you use RHEL or Fedora, then you can
 
 ```text
 yum copr enable castedo/cnest
@@ -24,10 +24,10 @@ yum install cnest
 pip install
 -----------
 
-To install version 1.5 via pip from github:
+To install version 1.7 via pip from github:
 
 ```text
-python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.6-1
+python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.7-1
 ```
 
 You can avoid installing it as root by doing a local user install by adding the
