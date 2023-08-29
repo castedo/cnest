@@ -54,6 +54,7 @@ podman create \
     --add-host=$CONTAINER_NAME.$HOSTNAME:::1 \
     --cgroups=enabled \
     --pid=host \
+    --user root \
     $CREATE_OPTIONS \
     $REPO_IMAGE \
     sleep inf
