@@ -50,6 +50,8 @@ podman create \
     --name "$CONTAINER_NAME" \
     --uts=private \
     --hostname $CONTAINER_NAME.$HOSTNAME \
+    --add-host=$CONTAINER_NAME.$HOSTNAME:127.0.0.1 \
+    --add-host=$CONTAINER_NAME.$HOSTNAME:::1 \
     --cgroups=enabled \
     --pid=host \
     $CREATE_OPTIONS \
