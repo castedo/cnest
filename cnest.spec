@@ -1,6 +1,6 @@
 Name: cnest
 Version: 1.8
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -46,6 +46,11 @@ to be:
 %license LICENSE
 
 %changelog
+* Tue Sep 05 2023 Castedo Ellerman <castedo@castedo.com> 1.8-1
+- v1.8 bump; hashbang /usr/bin (castedo@castedo.com)
+- run sleep inf as root, not user (castedo@castedo.com)
+- add container network name to /etc/hosts file (castedo@castedo.com)
+
 * Sat Aug 27 2022 Castedo Ellerman <castedo@castedo.com> 1.7-2
 - fix invalid --entry param default (issue #16) (castedo@castedo.com)
 - Update install.md (castedo@castedo.com)
