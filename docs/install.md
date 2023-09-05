@@ -24,10 +24,10 @@ yum install cnest
 pip install
 -----------
 
-To install version 1.7 via pip from github:
+To install version 1.8 via pip from github:
 
 ```text
-python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.7-1
+python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.8-1
 ```
 
 You can avoid installing it as root by doing a local user install by adding the

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 if [[ -z "$1" ]]; then
   THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
