@@ -1,8 +1,0 @@
-source $CNEST_DEFAULT_ENV_FILE
-
-REPOSITORY=docker.io/castedo/nests
-
-CREATE_OPTIONS="
-    --security-opt=label=disable
-    $CNEST_WAYLAND
-"

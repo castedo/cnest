@@ -1,6 +1,0 @@
-#!/bin/bash
-set -o errexit
-
-xdg-icon-resource install --size 24 chromium-browser.png
-xdg-desktop-menu install cnest-chromium.desktop
-

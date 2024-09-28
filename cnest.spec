@@ -37,8 +37,6 @@ to be:
 %{_bindir}/cnest
 %{_bindir}/cnestify
 %{_bindir}/create-nest
-%{_bindir}/create-nest-by-tag
-%{_bindir}/cnest-permission-definitions
 %{_bindir}/guess-container
 %{python3_sitelib}/cnest/
 %{python3_sitelib}/cnest-%{version}*

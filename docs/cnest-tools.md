@@ -8,11 +8,6 @@ Primary tools:
 * `cnestify` for creating images with enhanced functionality enabled by `cnest`
   and `create-nest`
 
-Secondary tools:
-
-* `create-nest-by-tag` is a simple helper wrapper script of crest-nest for
-  choosing image and container names from tags in a single repository
-
 
 cnest
 -----
@@ -80,29 +75,3 @@ Some of the features enables by `cnestify` are:
 
 Run `cnestify` or look at one of the How-to guides for more details on how to
 use.
-
-
-create-nest-by-tag
-------------------
-
-If you have many favorite images in one single repository
-with tag names that can serve as container names, `create-nest-by-tag`
-is convenient.
-
-```
-export CNEST_REPOSITORY=myfavrepo
-create-nest-by-tag some_profile
-```
-to list available [OCI](https://opencontainers.org/) image tag names in `myfavrepo`, or
-
-```
-creat-nest-by-tag some_profile foo-2
-```
-to create a nest container from the image tagged `foo-2` and name the container
-the same, or
-
-```
-creat-nest-by-tag some_profile foo-2 a_diff_name
-```
-to name the container `a_diff_name`.
-

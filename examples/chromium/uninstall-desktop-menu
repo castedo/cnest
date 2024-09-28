@@ -1,5 +1,0 @@
-#!/bin/bash
-set -o errexit
-
-xdg-desktop-menu uninstall cnest-chromium.desktop
-xdg-icon-resource uninstall --size 24 chromium-browser.png

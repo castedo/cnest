@@ -1,8 +1,0 @@
-#!/bin/bash
-set -o errexit
-
-REPOSITORY=docker.io/castedo/nests
-TAG=gnome-calculator-1
-
-buildah bud --layers -t $REPOSITORY:$TAG .
-

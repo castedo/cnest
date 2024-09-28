@@ -1,2 +1,0 @@
-#!/bin/bash
-/usr/bin/chromium-browser --no-sandbox

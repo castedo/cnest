@@ -1,3 +1,0 @@
-#!/bin/bash
-useradd --create-home --user-group --uid $1 $2
-usermod -a -G audio,video,render $2

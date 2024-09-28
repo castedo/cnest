@@ -1,6 +1,0 @@
-#!/bin/bash
-set -o errexit
-
-xdg-icon-resource install --size 24 google-chrome.png
-xdg-desktop-menu install cnest-chrome.desktop
-
