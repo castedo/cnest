@@ -25,15 +25,6 @@ else
   CONTAINER=$PATTERN
 fi
 
-# check if cnest-entry exists by trying to copy from container to stdout
-if podman cp $CONTAINER:/usr/bin/cnest-entry - >/dev/null 2>&1; then
-  COMMAND="/usr/bin/cnest-entry $COMMAND"
-else
-  if [[ -z $COMMAND ]]; then
-    COMMAND="/bin/bash --login"
-  fi
-fi
-
 podman start $CONTAINER
 
 WORKDIR="/home/$USER"
@@ -65,4 +56,3 @@ NUM_EXEC=$(podman container inspect --format "{{len .ExecIDs}}" $CONTAINER)
 if [[ $NUM_EXEC -eq 0 ]]; then
   podman stop $CONTAINER
 fi
-

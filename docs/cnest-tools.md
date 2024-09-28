@@ -16,9 +16,7 @@ cnest
 `podman exec/start/stop` with some extra niceties:
 
 * unlike `podman exec`, you can omit the command to exec and it will default to
-  executing either the command
-  * /usr/bin/cnest-entry in the container if it exists OR
-  * /bin/bash --login
+  executing either the command `/bin/bash --login`
 * you can type a container name without a version suffix (e.g. type "webdev"
   and it guesses you want a container named "webdev-5")
 * will stop the container if there are no more podman exec sessions (of which
@@ -35,7 +33,7 @@ cnest
 The `cnest` script can be used with any container that
 
 * will run in the background after `podman start`
-* has either `/bin/bash` or `/usr/bin/cnest-entry` available to execute
+* has `/bin/bash` available to execute
 
 A container does not have to be created with `create-nest`.
 

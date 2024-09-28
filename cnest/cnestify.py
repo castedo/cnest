@@ -25,8 +25,6 @@ def append_line(line, container, path, newline=True):
 def build_from_image(args):
     container = buildah_output(['from', args.from_image])
     try:
-        if args.entry:
-            buildah(['copy', container, args.entry, "/usr/bin/"])
         buildah(['copy', container, args.profile_d, "/etc/profile.d/"])
         append_line(args.nestsign, container, "/etc/nestsign", newline=False)
         buildah(['copy', container, getpath("nestkit"), "/opt/nestkit"])
@@ -53,7 +51,6 @@ def main():
     parser.add_argument('--from', help="use source image instead of Dockerfile",
         dest="from_image")
     parser.add_argument('--nestsign', help="nest sign", default='📦')
-    parser.add_argument('--entry', help="cnest-entry file")
     parser.add_argument('--profile-d', help="profile.d directory",
         default=getpath("profile.d"), metavar="DIR")
     parser.add_argument('--groups', action='append', help="additional groups")
