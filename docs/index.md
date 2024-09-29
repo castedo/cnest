@@ -46,7 +46,6 @@ How-to Guides
 -------------
 
 * [](how-to-share-partial-home.md)
-* [](how-to-rtd.md)
 
 ```{toctree}
 ---
@@ -55,7 +54,6 @@ maxdepth: 2
 hidden:
 ---
 how-to-share-partial-home.md
-how-to-rtd.md
 ```
 
 The `cnest` package

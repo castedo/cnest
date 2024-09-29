@@ -1,0 +1,17 @@
+#!/bin/bash
+if ! id -u "$1" &>/dev/null; then
+    echo parameter passed is invalid user: $1
+    exit 22 # EINVAL Invalid argument
+fi
+
+if command -v sudo; then
+  NONROOTRUN="sudo -u $1"
+else
+  NONROOTRUN="runuser -u $1 --"
+fi
+
+install -d -o $1 -g $1 /home/$1
+usermod --home /home/$1 $1
+$NONROOTRUN cp --recursive --preserve --no-clobber /etc/skel/. /home/$1
+passwd --delete $1 > /dev/null
+usermod --append --groups sudo $1 2> /dev/null || usermod --append --groups wheel $1

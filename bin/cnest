@@ -7,22 +7,15 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-PATTERN="$1"
+CONTAINER="$1"
 shift
 COMMAND="$@"
-if [[ -z $USER ]]; then
-  USER=$(id -un)
+if [[ -z $COMMAND ]]; then
+  COMMAND="/bin/bash --login"
 fi
 
-if command -v guess-container &>/dev/null; then
-  # if guess-container can be run, then guess full container name
-  CONTAINER=$(guess-container $PATTERN)
-  if [[ -z "$CONTAINER" ]]; then
-    echo "Can not find container matching: $PATTERN"
-    exit 1
-  fi
-else
-  CONTAINER=$PATTERN
+if [[ -z $USER ]]; then
+  USER=$(id -un)
 fi
 
 podman start $CONTAINER

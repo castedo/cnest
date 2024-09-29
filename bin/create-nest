@@ -59,13 +59,14 @@ podman create \
     $REPO_IMAGE \
     sleep inf
 
-# check if /opt/nestkit exists by attempting copy to stdout
-if podman cp $CONTAINER_NAME:/opt/nestkit - >/dev/null 2>&1; then
-    podman start $CONTAINER_NAME
-    podman exec --user root --workdir /opt/nestkit \
-        $CONTAINER_NAME /opt/nestkit/boostuser $USER
-    podman exec --user $USER --workdir /opt/nestkit \
-        $CONTAINER_NAME /opt/nestkit/userinit
-    podman stop $CONTAINER_NAME
-fi
+podman start $CONTAINER_NAME
+cat $(python3 -m cnest.getpath setupuser) | podman exec -i --user root $CONTAINER_NAME /bin/bash -s $USER
+podman stop $CONTAINER_NAME
 
+podman cp $(python3 -m cnest.getpath profile.d)/. $CONTAINER_NAME:/etc/profile.d/
+
+# check if /etc/nestsign exists by attempting copy to stdout
+if ! podman cp $CONTAINER_NAME:/etc/nestsign - >/dev/null 2>&1; then
+  # copy a default nestsign if one does not exist
+  podman cp $(python3 -m cnest.getpath nestsign) $CONTAINER_NAME:/etc/nestsign
+fi

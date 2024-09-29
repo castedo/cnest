@@ -17,8 +17,6 @@ cnest
 
 * unlike `podman exec`, you can omit the command to exec and it will default to
   executing either the command `/bin/bash --login`
-* you can type a container name without a version suffix (e.g. type "webdev"
-  and it guesses you want a container named "webdev-5")
 * will stop the container if there are no more podman exec sessions (of which
   cnest sessions are one case)
 * will automatically keep you in your current directory if
@@ -46,30 +44,12 @@ create-nest
 A permissions profile must be given to specify what `podman create` options to
 add, such as home directories to share.
 
-Optionally, if the image has the following scripts, they will be run **in
-the new container** upon creation:
+Some of the features enables by `cnestify` are:
 
-* /opt/nestkit/boostuser (run as root, username passed as parameter)
-* /opt/nestkit/userinit (run as the user)
+* add a symbol to the prompt inside the container
+* add the user to the `sudo` or `wheel` group inside the container
+
 
 ### Requirements for images pulled from repositories
 
 * `sleep inf` is valid commmand to run
-
-
-cnestify
---------
-
-`cnestify` builds an enhanced image to be used for creating nest containers.
-The image can start from a `Dockerfile` or you can just specify an image to
-start with.
-
-Some of the features enables by `cnestify` are:
-
-* add a symbol to the prompt inside the container
-* add groups to the user inside the container
-* hook in a /usr/bin/cnest-entry script to be run by `cnest`
-* override what `/etc/profile.d/` scripts should be added
-
-Run `cnestify` or look at one of the How-to guides for more details on how to
-use.

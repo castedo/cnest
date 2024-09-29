@@ -1,5 +1,5 @@
 Name: cnest
-Version: 1.8
+Version: 2.0
 Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
@@ -9,7 +9,7 @@ Source0: %{name}-%{version}.tar.gz
 
 BuildArch: noarch
 Requires: bash, coreutils
-Requires: podman, buildah, skopeo
+Requires: podman
 BuildRequires: python3-devel, python3-setuptools
 
 %?python_enable_dependency_generator
@@ -35,9 +35,7 @@ to be:
 
 %files
 %{_bindir}/cnest
-%{_bindir}/cnestify
 %{_bindir}/create-nest
-%{_bindir}/guess-container
 %{python3_sitelib}/cnest/
 %{python3_sitelib}/cnest-%{version}*
 
