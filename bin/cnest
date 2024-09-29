@@ -39,6 +39,7 @@ podman exec -it \
   -e LANG \
   -e TERM \
   -e DISPLAY \
+  -e CONTAINER_NAME=$CONTAINER \
   --detach-keys="" \
   --user $USER \
   --workdir "$WORKDIR" \

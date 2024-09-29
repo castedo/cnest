@@ -2,14 +2,14 @@ if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
     NESTSIGN=$(cat /etc/nestsign)
     case "$PS1" in
     '\s-\v\$ ') # default bash prompt
-        PS1="$NESTSIGN[\u@\h \W]\\$ "
+        PS1="$NESTSIGN$CONTAINER_NAME[\u@\h \W]\\$ "
         ;;
     *debian_chroot*)
         # fancy prompt on debian
-        debian_chroot=$NESTSIGN
+        debian_chroot=$NESTSIGN$CONTAINER_NAME
         ;;
     [*)
-        PS1="$NESTSIGN$PS1"
+        PS1="$NESTSIGN$CONTAINER_NAME$PS1"
         ;;
     esac
 fi

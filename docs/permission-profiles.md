@@ -3,8 +3,6 @@ Permission Profiles
 
 A permissions profile determines what permissions, resources and capabilities
 to expose to a nest container.
-These permissions are intended to mimic [flatpak permissions
-](https://docs.flatpak.org/en/latest/sandbox-permissions.html).
 
 To see what permissions profiles you can pick, run `create-nest` without any
 parameters:
