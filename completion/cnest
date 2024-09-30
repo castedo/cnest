@@ -1,0 +1,18 @@
+# bash completion for cnest
+
+_cnest()
+{
+    local cur prev words cword
+    _init_completion || return
+
+    # logger cur=$cur prev=$prev cword=$cword words=\(${words[*]}\)
+
+    if ((cword == 1)); then
+      WORDLIST=$(podman ps --all --format '{{.Names}}')
+      COMPREPLY=($(compgen -W "$WORDLIST" -- "$cur"))
+    fi
+
+} &&
+    complete -F _cnest cnest
+
+# ex: filetype=sh

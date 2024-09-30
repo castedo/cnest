@@ -3,7 +3,16 @@
 if [[ -z "$1" ]]; then
   THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
   echo "Usage:"
-  echo "  [USER=user] $THIS_SCRIPT container_pattern [command]"
+  echo "  [USER=user] $THIS_SCRIPT container [command]"
+  echo
+  CONTAINERS=$(
+    podman ps --all --format '{{.Names}} {{.Command}}' \
+    | awk '$2 == "sleep" { print $1 }'
+  )
+  if [[ -n $CONTAINERS ]]; then
+    echo "Compatible containers:"
+    echo "$CONTAINERS" 
+  fi
   exit 1
 fi
 
