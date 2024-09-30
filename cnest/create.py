@@ -12,14 +12,15 @@ def as_file(content: str, path: Path) -> Path:
 
 class Container:
     def __init__(self, image: str, create_options: list[str]):
-        cmdline = ['podman', 'create'] + create_options + [
+        cmdline = ['podman', 'create']
+        cmdline += [
             '--userns=keep-id',
             '--uts=private',
             '--cgroups=enabled',
             '--pid=host',
             '--user=root',
         ]
-        cmdline += [image, 'sleep', 'inf']
+        cmdline += create_options + [image, 'sleep', 'inf']
         result = run(cmdline, check=True, stdout=PIPE, encoding="utf-8")
         self.cid = result.stdout.rstrip('\n')
 
@@ -39,14 +40,19 @@ class Container:
             run(cmdline, check=True, stdin=f)
         run(['podman', 'stop', self.cid], check=True, capture_output=True)
 
+    def print_name(self):
+        run(['podman', 'inspect', self.cid, '--format={{.Name}}'], check=True)
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="create a nest container")
-    parser.add_argument('image', help="image reference")
     parser.add_argument('--nestsign', help="nest sign")
     parser.add_argument('--etc-profile-d', type=Path, help="/etc/profile.d script(s)")
     parser.add_argument('--userinit', type=Path, help="user init script")
     parser.add_argument('--user', default=getpass.getuser())
+    parser.add_argument(
+        'image', help="image reference", metavar="image [podman_create_options ...]"
+    )
     args, unknown_args = parser.parse_known_args()
 
     container = Container(args.image, unknown_args)
@@ -63,8 +69,10 @@ def main() -> None:
         etc_nestsign = Path("/etc/nestsign")
         if not args.nestsign and not container.exists(etc_nestsign):
             args.nestsign = '📦'
-        container.copy(as_file(args.nestsign, t / "nestsign"), etc_nestsign)
-        run(['podman', 'inspect', container.cid, '--format={{.Name}}'], check=True)
+        if args.nestsign:
+            container.copy(as_file(args.nestsign, t / "nestsign"), etc_nestsign)
+
+        container.print_name()
 
 
 USERINIT = r'''
@@ -94,7 +102,6 @@ NESTPROMPT = r'''
       esac
   fi
 '''
-
 
 if __name__ == '__main__':
     main()

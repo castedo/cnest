@@ -1,0 +1,44 @@
+#!/usr/bin/bash
+set -o errexit -o pipefail -o nounset
+
+print_usage() {
+    THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
+    echo "Usage:"
+    echo "  $THIS_SCRIPT profile_dir image [create_options ...]"
+}
+
+if [[ $# -lt 2 ]]; then
+    print_usage
+    exit 2
+fi
+
+PROFILE=$(realpath $1)
+shift
+IMAGE=$1
+shift
+
+STOWAGE="$PROFILE/stowage"
+STOWHOME="$PROFILE/stowhome.sh"
+CREATE_NEST="$PROFILE/create-nest"
+
+if [[ ! -d $STOWAGE ]]; then
+    echo "Not a directory: $STOWAGE"
+    exit 1
+fi
+
+if [[ ! -f $STOWHOME ]]; then
+    echo "File not found: $STOWHOME"
+    exit 1
+fi
+
+if [[ ! -e $CREATE_NEST ]]; then
+  CREATE_NEST=create-nest-container
+fi
+
+set -o xtrace
+
+$CREATE_NEST \
+  $IMAGE \
+  --volume $STOWAGE:$HOME/.stowage \
+  --volume $STOWHOME:/etc/profile.d/stowhome.sh \
+  "$@"
