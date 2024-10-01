@@ -1,19 +1,24 @@
 #!/usr/bin/bash
 
+print_possible_containers() {
+  podman ps --all --format '{{.Names}} {{.Command}}' | awk '$2 == "sleep" { print $1 }'
+}
+
 if [[ -z "$1" ]]; then
-  THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
-  echo "Usage:"
-  echo "  [USER=user] $THIS_SCRIPT container [command]"
-  echo
-  CONTAINERS=$(
-    podman ps --all --format '{{.Names}} {{.Command}}' \
-    | awk '$2 == "sleep" { print $1 }'
-  )
-  if [[ -n $CONTAINERS ]]; then
-    echo "Compatible containers:"
-    echo "$CONTAINERS" 
+  if [[ -z "$CNEST_COMPLETION" ]]; then
+    THIS_SCRIPT=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
+    echo "Usage:"
+    echo "  [USER=user] $THIS_SCRIPT container [command]"
+    echo
+    CONTAINERS=$(print_possible_containers)
+    if [[ -n $CONTAINERS ]]; then
+      echo "Possible containers:"
+      echo "$CONTAINERS" 
+    fi
+    exit 2
   fi
-  exit 1
+  print_possible_containers
+  exit 0
 fi
 
 CONTAINER="$1"
