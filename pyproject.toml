@@ -22,7 +22,7 @@ authors = [
 Homepage = "https://github.com/castedo/cnest"
 
 [project.scripts]
-create-nest-container = "cnest.create:main"
+create-cnest = "cnest.create:main"
 
 [tool.setuptools]
 packages = [

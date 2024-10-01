@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, getpass
+import argparse, getpass, os
 from contextlib import nullcontext
 from importlib import resources
 from pathlib import Path
@@ -44,7 +44,14 @@ def local_or_package(local, filename):
     return nullcontext(local) if local else resources.as_file(packpath)
 
 
-def main() -> None:
+def print_local_images() -> int:
+    return run(['podman', 'images', '--format={{.Repository}}:{{.Tag}}']).returncode
+
+
+def main() -> int:
+    if "CNEST_COMPLETION" in os.environ:
+        return print_local_images()
+
     parser = argparse.ArgumentParser(description="create a nest container")
     parser.add_argument('--nestsign', help="nest sign")
     parser.add_argument('--etc-profile-d', type=Path, help="/etc/profile.d script(s)")
@@ -53,7 +60,13 @@ def main() -> None:
     parser.add_argument(
         'image', help="image reference", metavar="image [podman_create_options ...]"
     )
-    args, unknown_args = parser.parse_known_args()
+    try:
+        args, unknown_args = parser.parse_known_args()
+    except SystemExit:
+        print("\nImages in local storage:")
+        print_local_images()
+        return 2
+
     container = Container(args.image, unknown_args)
     with local_or_package(args.userinit, "userinit") as p:
         container.run_bash_script(p, [args.user])
@@ -63,7 +76,8 @@ def main() -> None:
     if args.nestsign or not container.exists(etc_nestsign):
         with local_or_package(args.nestsign, "nestsign") as p:
             container.copy(p, etc_nestsign)
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())

@@ -3,17 +3,18 @@
 _cnest()
 {
     local cur prev words cword
-    _init_completion || return
+    _init_completion -n : || return
     local command=${words[0]}
 
-    # logger cur=$cur prev=$prev cword=$cword words=\(${words[*]}\)
+    # logger "cur=$cur prev=$prev cword=$cword words=\(${words[*]}\)"
 
-    if ((cword == 1)); then
+    if [[ $cword == 1 || $command == 'create-cnest' ]]; then
       local WORDLIST=$(CNEST_COMPLETION=1 $command)
       COMPREPLY=($(compgen -W "$WORDLIST" -- "$cur"))
+      __ltrim_colon_completions "$cur"
     fi
 
 } &&
-    complete -F _cnest cnest
+    complete -F _cnest cnest create-cnest
 
 # ex: filetype=sh

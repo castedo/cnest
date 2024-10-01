@@ -2,9 +2,9 @@
 set -o errexit -o pipefail -o nounset
 
 if [[ $# -lt 1 ]]; then
-    THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
+    COMMAND=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
     echo "Usage:"
-    echo "  [USER=user] $THIS_SCRIPT image [podman_create_options ...]"
+    echo "  [USER=user] $COMMAND image [podman_create_options ...]"
     exit 2
 fi
 
