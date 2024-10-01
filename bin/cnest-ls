@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+set -o errexit
+
+FORMAT="{{.Names}}\t{{.Image}}\t{{.CreatedHuman}}\t{{.Size}}\t{{.Command}}"
+AWK_PROG='$5 == "sleep inf" { print }'
+TABS="--tabs=27,70,+20"
+
+printf "NAMES\tIMAGE\tCREATED\tSIZE\n" | expand $TABS
+
+podman ps --all --size --format $FORMAT \
+  | awk -F'\t' -v OFS='\t' "$AWK_PROG" \
+  | cut -f5 --complement \
+  | expand $TABS

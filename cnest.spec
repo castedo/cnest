@@ -36,6 +36,7 @@ install -Dpm 0644 completion/cnest -t %{buildroot}%{bash_completions_dir}
 
 %files
 %{_bindir}/cnest
+%{_bindir}/cnest-ls
 %{_bindir}/create-nest
 %{python3_sitelib}/cnest/
 %{python3_sitelib}/cnest-%{version}*
