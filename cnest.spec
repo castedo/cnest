@@ -1,6 +1,6 @@
 Name: cnest
 Version: 2.0
-Release: 1%{?dist}
+Release: 0%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -10,36 +10,29 @@ Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 Requires: bash, coreutils
 Requires: podman
-BuildRequires: python3-devel, python3-setuptools
-
-%?python_enable_dependency_generator
 
 %description
 Simple scripts for personalized persistent controlled containers designed
 to be:
 * personalized: with rootless podman into containers personalized for local user
-* persistent: with mutable "pet" containers where you can interactively run yum,
-  apt-get, change settings, etc... in containers you don't want automatically
-  deleted
-* controlled: profiles picked by the user determine what capabilities are given
-  to the container (isolation by default)
+* persistent: with mutable "pet" containers where you can interactively run dnf,
+  apt-get, change settings, etc...
+* controlled: isolated by default, home is not mounted, only a minimal number of podman
+  options are enabled, additional options are passed through to podman
 
 %prep
 %autosetup -n cnest-%{version}
 
 %build
-%py3_build
 
 %install
-%py3_install
-install -Dpm 0644 completion/cnest -t %{buildroot}%{bash_completions_dir}
+install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/cnest-ls bin/cnest-cnest
+install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest 
 
 %files
 %{_bindir}/cnest
 %{_bindir}/cnest-ls
-%{_bindir}/create-nest
-%{python3_sitelib}/cnest/
-%{python3_sitelib}/cnest-%{version}*
+%{_bindir}/create-cnest
 %{bash_completions_dir}/cnest
 
 %license LICENSE

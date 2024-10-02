@@ -8,7 +8,7 @@ _cnest()
 
     # logger "cur=$cur prev=$prev cword=$cword words=\(${words[*]}\)"
 
-    if [[ $cword == 1 || $command == 'create-cnest' ]]; then
+    if ((cword == 1)); then
       local WORDLIST=$(CNEST_COMPLETION=1 $command)
       COMPREPLY=($(compgen -W "$WORDLIST" -- "$cur"))
       __ltrim_colon_completions "$cur"
