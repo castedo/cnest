@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -o errexit -o pipefail -o nounset
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 1 || ! -v USER ]]; then
     COMMAND=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
     echo "Usage:"
     echo "  [USER=user] $COMMAND image [podman_create_options ...]"
@@ -10,42 +10,36 @@ fi
 
 IMAGE=$1
 shift
-if [[ ! -v USER ]]; then
-  USER=$(id -un)
-fi
 
-CONTAINER_NAME=$(podman create \
+CONTAINER_ID=$(podman create \
     --userns=keep-id \
     --uts=private \
     --cgroups=enabled \
     --pid=host \
-    --user root \
+    --user=root \
     "$@" \
     $IMAGE \
     sleep inf)
 
-podman inspect $CONTAINER_NAME --format={{.Name}}
+podman inspect $CONTAINER_ID --format={{.Name}}
 
-podman start $CONTAINER_NAME > /dev/null
-podman exec -i --user root $CONTAINER_NAME /bin/bash -s $USER <<'EOF'
+podman start $CONTAINER_ID > /dev/null
+
+podman exec -i --user root $CONTAINER_ID \
+  bash -s $USER <<'EOF'
   set -o nounset
-  if command -v sudo > /dev/null; then
-    NONROOTRUN="sudo -u $1"
-  else
-    NONROOTRUN="runuser -u $1 --"
-  fi
-  install -d -o $1 -g $1 /home/$1
+  mkdir --parents /home/$1
+  chown $1: /home/$1
   usermod --home /home/$1 $1
-  $NONROOTRUN cp --recursive --preserve --no-clobber /etc/skel/. /home/$1
-  passwd --delete $1 > /dev/null
   usermod --append --groups sudo $1 2> /dev/null || usermod --append --groups wheel $1
+  passwd --delete $1 > /dev/null
 EOF
-podman stop $CONTAINER_NAME > /dev/null
 
-TEMPFILE=$(mktemp)
-trap 'rm -f $TEMPFILE' EXIT
+podman exec $CONTAINER_ID \
+  cp --recursive --preserve --no-clobber /etc/skel/. /home/$USER
 
-cat > $TEMPFILE <<'EOF'
+podman exec -i --user root $CONTAINER_ID \
+  cp /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
   if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
       NESTSIGN=$(cat /etc/nestsign)
       case "$PS1" in
@@ -58,11 +52,8 @@ cat > $TEMPFILE <<'EOF'
       esac
   fi
 EOF
-podman cp $TEMPFILE $CONTAINER_NAME:/etc/profile.d/nestprompt.sh
 
-# check if /etc/nestsign exists by attempting copy to stdout
-if ! podman cp $CONTAINER_NAME:/etc/nestsign - >/dev/null 2>&1; then
-  # copy a default nestsign if one does not exist
-  echo 📦 > $TEMPFILE
-  podman cp $TEMPFILE $CONTAINER_NAME:/etc/nestsign
-fi
+echo 📦 | podman exec -i --user root $CONTAINER_ID \
+  cp --no-clobber /dev/stdin /etc/nestsign
+
+podman stop $CONTAINER_ID > /dev/null
