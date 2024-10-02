@@ -1,24 +1,23 @@
 #!/usr/bin/bash
+set -o errexit -o pipefail -o nounset
 
 print_possible_containers() {
   podman ps --all --format '{{.Names}} {{.Command}}' | awk '$2 == "sleep" { print $1 }'
 }
 
-if [[ -z "$1" ]]; then
-  if [[ -z "$CNEST_COMPLETION" ]]; then
-    THIS_SCRIPT=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
-    echo "Usage:"
-    echo "  [USER=user] $THIS_SCRIPT container [command]"
-    echo
-    CONTAINERS=$(print_possible_containers)
-    if [[ -n $CONTAINERS ]]; then
-      echo "Possible containers:"
-      echo "$CONTAINERS" 
-    fi
-    exit 2
-  fi
+if [[ -v CNEST_COMPLETION ]]; then
   print_possible_containers
   exit 0
+fi
+
+if [[ $# -lt 1 || ! -v USER ]]; then
+  THIS_SCRIPT=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
+  printf "Usage:\n  [USER=user] $THIS_SCRIPT container [command]\n\n"
+  CONTAINERS=$(print_possible_containers)
+  if [[ -n $CONTAINERS ]]; then
+    printf "Possible containers:\n  ${CONTAINERS//$'\n'/$'\n'  }\n"
+  fi
+  exit 2
 fi
 
 CONTAINER="$1"
@@ -26,10 +25,6 @@ shift
 COMMAND="$@"
 if [[ -z $COMMAND ]]; then
   COMMAND="/bin/bash --login"
-fi
-
-if [[ -z $USER ]]; then
-  USER=$(id -un)
 fi
 
 podman start $CONTAINER
@@ -49,6 +44,8 @@ else
   echo \'$PWD\' does not exist in the container
 fi
 
+set +o errexit
+
 podman exec -it \
   -e LANG \
   -e TERM \
@@ -60,7 +57,11 @@ podman exec -it \
   $CONTAINER \
   $COMMAND
 
+STATUS=$?
+
 NUM_EXEC=$(podman container inspect --format "{{len .ExecIDs}}" $CONTAINER)
 if [[ $NUM_EXEC -eq 0 ]]; then
   podman stop $CONTAINER
 fi
+
+exit $STATUS
