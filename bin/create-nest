@@ -1,6 +1,12 @@
 #!/usr/bin/bash
 set -o errexit
 
+echo $'\u001b[1m'"THIS SCRIPT IS DEPRECATED."$'\u001b[0m'
+echo "Use v2.x create-cnest."
+echo "Replace your cnest v1.x ~/.config/cnest/profiles files,"
+echo "with small personal shell scripts that call create-cnest."
+echo
+
 print_usage() {
     THIS_SCRIPT=$'\u001b[1m'"$(basename $0)"$'\u001b[0m'
     echo "Usage:"
@@ -19,8 +25,9 @@ if [[ -z $USER ]]; then
 fi
 
 if [[ ! -d $PROFILE_DIR ]]; then
-    mkdir -p $PROFILE_DIR
-    cp -ra $(python3 -m cnest.getpath starter-profiles)/. $PROFILE_DIR
+    echo "There are no cnest v1.x profile files."
+    echo "Use v2.x create-cnest."
+    exit 1
 fi
 
 if [[ -z $CONTAINER_NAME ]]; then
@@ -45,25 +52,8 @@ eval $ASSIGNMENT
 
 set -x
 
-podman create \
-    --userns=keep-id \
-    --name "$CONTAINER_NAME" \
-    --uts=private \
-    --cgroups=enabled \
-    --pid=host \
-    --user root \
-    $CREATE_OPTIONS \
+create-cnest \
     $REPO_IMAGE \
-    sleep inf
-
-podman start $CONTAINER_NAME
-cat $(python3 -m cnest.getpath setupuser) | podman exec -i --user root $CONTAINER_NAME /bin/bash -s $USER
-podman stop $CONTAINER_NAME
-
-podman cp $(python3 -m cnest.getpath profile.d)/. $CONTAINER_NAME:/etc/profile.d/
-
-# check if /etc/nestsign exists by attempting copy to stdout
-if ! podman cp $CONTAINER_NAME:/etc/nestsign - >/dev/null 2>&1; then
-  # copy a default nestsign if one does not exist
-  podman cp $(python3 -m cnest.getpath nestsign) $CONTAINER_NAME:/etc/nestsign
-fi
+    --name "$CONTAINER_NAME" \
+    $CREATE_OPTIONS \
+    ;

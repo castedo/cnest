@@ -1,3 +1,0 @@
-CREATE_OPTIONS="
-    --volume $HOME/Downloads:$HOME/Downloads
-"
