@@ -3,7 +3,7 @@ site_url: !ENV READTHEDOCS_CANONICAL_URL
 repo_url: https://github.com/castedo/cnest
 edit_uri: edit/main/docs
 theme:
-  name: material
+  name: readthedocs
   features:
     - content.action.edit
     - navigation.footer
