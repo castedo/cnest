@@ -10,7 +10,9 @@ Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 Requires: bash, coreutils
 Requires: podman
-BuildRequires: epel-rpm-macros
+
+# macro %{bash_completions_dir} is defined by the epel-rpm-macros package to
+# %{_datadir}/bash-completion/completions
 
 %description
 Simple scripts for personalized persistent controlled containers designed

@@ -3,7 +3,7 @@ set -o errexit
 
 FORMAT="{{.Names}}\t{{.Image}}\t{{.CreatedHuman}}\t{{.Size}}\t{{.Command}}"
 AWK_PROG='$5 == "sleep inf" { print }'
-TABS="--tabs=27,70,+20"
+TABS="--tabs=27,80,+20"
 
 printf "NAMES\tIMAGE\tCREATED\tSIZE\n" | expand $TABS
 

@@ -32,14 +32,17 @@ if [[ $IMAGE == -* ]]; then
   print_usage
 fi
 
-CONTAINER_ID=$(set -o xtrace
-    podman create \
+CIDFILE=$(mktemp)
+(set -o xtrace
+podman create \
+    --cidfile=$CIDFILE \
     --userns=keep-id \
     --pid=host \
     --user=root \
     "$@" \
     $IMAGE \
     sleep inf)
+CONTAINER_ID=$(< $CIDFILE)
 
 podman inspect $CONTAINER_ID --format={{.Name}}
 
