@@ -65,7 +65,7 @@ EOF
 } || exit_status=1
 
 { podman exec -i --user root $CONTAINER_ID \
-  cp /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
+  cp --no-preserve=all /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
     if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
         NESTSIGN=$(cat /etc/nestsign)
         case "$PS1" in

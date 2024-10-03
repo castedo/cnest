@@ -10,6 +10,7 @@ Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 Requires: bash, coreutils
 Requires: podman
+BuildRequires: epel-rpm-macros
 
 %description
 Simple scripts for personalized persistent controlled containers designed
@@ -26,8 +27,9 @@ to be:
 %build
 
 %install
-install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/cnest-ls bin/cnest-cnest
-install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest 
+install -d %{buildroot}%{_bindir}
+install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/cnest-ls bin/create-cnest
+install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest
 
 %files
 %{_bindir}/cnest
@@ -35,6 +37,7 @@ install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest
 %{_bindir}/create-cnest
 %{bash_completions_dir}/cnest
 
+%doc README.md
 %license LICENSE
 
 %changelog
