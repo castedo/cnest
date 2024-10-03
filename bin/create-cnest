@@ -20,7 +20,7 @@ print_usage() {
   exit 2
 }
 
-if [[ $# -lt 1 || ! -v USER ]]; then
+if [[ $# -lt 1 ]]; then
   print_usage
 fi
 
@@ -32,12 +32,16 @@ if [[ $IMAGE == -* ]]; then
   print_usage
 fi
 
+if [[ ! -v USER ]]; then
+  USER=$(id -un)
+fi
+
 CIDFILE=$(mktemp)
 (set -o xtrace
 podman create \
     --cidfile=$CIDFILE \
     --userns=keep-id \
-    --pid=host \
+    --init \
     --user=root \
     "$@" \
     $IMAGE \

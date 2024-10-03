@@ -10,7 +10,7 @@ if [[ -v CNEST_COMPLETION ]]; then
   exit 0
 fi
 
-if [[ $# -lt 1 || ! -v USER ]]; then
+if [[ $# -lt 1 ]]; then
   THIS_SCRIPT=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
   printf "Usage:\n  [USER=user] $THIS_SCRIPT container [command]\n\n"
   CONTAINERS=$(print_possible_containers)
@@ -25,6 +25,10 @@ shift
 COMMAND="$@"
 if [[ -z $COMMAND ]]; then
   COMMAND="/bin/bash --login"
+fi
+
+if [[ ! -v USER ]]; then
+  USER=$(id -un)
 fi
 
 podman start $CONTAINER
