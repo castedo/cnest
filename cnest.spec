@@ -1,6 +1,6 @@
 Name: cnest
 Version: 2.0
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -43,6 +43,16 @@ install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest
 %license LICENSE
 
 %changelog
+* Thu Oct 03 2024 Castedo Ellerman <castedo@castedo.com> 2.0-1
+- drop Python code, create-nest and other obsolete files (castedo@castedo.com)
+- remove obsolete cnest-entry feature (castedo@castedo.com)
+- remove obsolete cnestify script (castedo@castedo.com)
+- use --init instead of --pid=host (castedo@castedo.com)
+- don't set podman defaults (castedo@castedo.com)
+- bash completion for cnest and create-cnest (castedo@castedo.com)
+- new create-cnest and cnest-ls utilities (castedo@castedo.com)
+- container name in prompt without touching hostname (castedo@castedo.com)
+
 * Tue Sep 05 2023 Castedo Ellerman <castedo@castedo.com> 1.8-1
 - v1.8 bump; hashbang /usr/bin (castedo@castedo.com)
 - run sleep inf as root, not user (castedo@castedo.com)
