@@ -5,31 +5,18 @@ Installation
   <img src="https://copr.fedorainfracloud.org/coprs/castedo/cnest/package/cnest/status_image/last_build.png" alt="Copr build status"/>
 </a>
 
-Please [Email me](mailto:castedo@castedo.com) if you start using cnest or
-create-nest and want backwards compatibility maintained.
+Please [email me](mailto:castedo@castedo.com) if you start using `cnest` or
+`create-cnest` and want backwards compatibility maintained.
 
 
-RHEL &amp; Fedora
--------------------
+RHEL & Fedora
+-------------
 
-If you use RHEL or Fedora, then you can
-
-```text
-yum copr enable castedo/cnest
-yum install cnest
-```
-[Email me](mailto:castedo@castedo.com) if you want a copr package for another distro.
-
-
-pip install
------------
-
-To install version 1.8 via pip from github:
+If you use RHEL or Fedora, you can
 
 ```text
-python3 -m pip install git+https://github.com/castedo/cnest.git@cnest-1.8-1
+dnf copr enable castedo/cnest
+dnf install cnest
 ```
-
-You can avoid installing it as root by doing a local user install by adding the
-`--user` option in `pip`.
+[Email me](mailto:castedo@castedo.com) if you want a Copr package for another distro.
 

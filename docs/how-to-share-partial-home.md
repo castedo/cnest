@@ -4,42 +4,37 @@ How to share only part of your home directory
 
 After [installation](install.md), you can
 ```text
-[castedo@nasa ~]$ create-nest
+[castedo@hostop ~]$ create-cnest
 Usage:
-  create-nest
-    to print list of available permission profiles.
-  create-nest profile image_ref container_name
-    to build nest container.
-Permission profiles available from /home/castedo/.config/cnest/profiles:
-only-downloads
-[castedo@nasa ~]$ 
+  [USER=user] create-cnest image [podman_create_options ...]
+
+Locally stored images:
+  quay.io/centos/centos:stream9
+  docker.io/library/debian:latest
+[castedo@hostop ~]$ 
 ```
-to see available permission profiles. If this is the first time
-running `create-nest` then a profile `only-downloads` has been copied to
-`~/.config/cnest/profiles` for convenienice.
 
 ```text
-[castedo@nasa ~]$ mkdir -p ~/Downloads
-[castedo@nasa ~]$ create-nest only-downloads debian mynest
-+ podman create --userns=keep-id --name mynest --uts=private --hostname mynest.nasa.home --cgroups=enabled --pid=host --volume /home/castedo/Downloads:/home/castedo/Downloads debian sleep +Inf
-c239882d78d3d069629557a5ee77207dfdca764bfce0c10f4229d50c87859983
-+ podman cp mynest:/opt/nestkit -
-[castedo@nasa ~]$ podman ps -a
+[castedo@hostop Downloads]$ create-cnest debian --name mynest -v .:$HOME/Downloads
++ podman create --cidfile=/tmp/tmp.iwKa5Jk8Ts --userns=keep-id --init --user=root --name mynest -v .:/home/castedo/Downloads debian sleep inf
+95bcb24705340b6453067af1e527c7026379d022a2d05cede450a149fa5b1ed1
+mynest
+[castedo@hostop ~]$ podman ps -a
 CONTAINER ID  IMAGE                            COMMAND     CREATED         STATUS            PORTS       NAMES
-7cf7c014f5e7  docker.io/castedo/share:rtd-4    sleep +Inf  11 minutes ago  Up 4 minutes ago              rtd-4
-c239882d78d3  docker.io/library/debian:latest  sleep +Inf  31 seconds ago  Created                       mynest
-[castedo@nasa ~]$ 
+95bcb2470534  docker.io/library/debian:latest  sleep inf   31 seconds ago  Created                       mynest
 ```
-This creates a new container named `mynest` which is
+This creates a new container named `mynest`, which is
 highly isolated and only shares `~/Downloads` with the host.
 
-To enter this new nest container do:
+To enter this new nest container, do:
 ```text
-[castedo@nasa ~]$ cnest mynest
+[castedo@hostop Downloads]$ cnest mynest
 mynest
-castedo@mynest:/$ cd /home/castedo
-castedo@mynest:/home/castedo$ ls -l
-total 4
-drwxr-xr-x. 4 castedo castedo 4096 Jan 13 22:15 Downloads
-castedo@mynest:/home/castedo$ 
+(📦mynest)castedo@95bcb2470534:~/Downloads$ ls -l 
+total 10825920
+-rw-r--r--. 1 castedo castedo 11085742080 Sep 24 15:08  rhel-9.4-x86_64-dvd.iso
+(📦mynest)castedo@95bcb2470534:~/Downloads$ 
 ```
+
+Notice that `cnest` preserved the current working directory when entering the new nest
+container.

@@ -1,11 +1,9 @@
 The Cnest Guide to Nest Containers
 ==================================
 
-```{image} _static/bird-nest-260px.png
-:alt: Bird Nest
-:height: 192px
-:align: right
-```
+<img src="_static/bird-nest-260px.png"
+ style="height: 192px; float:right;"
+ alt="Bird Nest">
 
 Introduction
 ------------
@@ -29,53 +27,3 @@ issue](https://github.com/castedo/cnest/issues) or email
 The scripts in the cnest package have been developed, tested and used since
 early 2020. But there are [other tools](other-tools.md) that can be used to
 create and use nest containers.
-
-
-```{toctree}
----
-caption: Introduction
-maxdepth: 2
-hidden:
----
-what-are-nest-containers.md
-other-tools.md
-```
-
-
-How-to Guides
--------------
-
-* [](how-to-share-partial-home.md)
-
-```{toctree}
----
-caption: How-to Guides
-maxdepth: 2
-hidden:
----
-how-to-share-partial-home.md
-```
-
-The `cnest` package
--------------------
-
-* [](install.md)
-* [](cnest-tools.md)
-* [](permission-profiles.md)
-* [](tips.md)
-* [](conclusions.md)
-
-
-```{toctree}
----
-caption: The cnest package
-maxdepth: 2
-hidden:
----
-install.md
-cnest-tools.md
-permission-profiles.md
-tips.md
-conclusions.md
-```
-
