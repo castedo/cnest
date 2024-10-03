@@ -10,7 +10,7 @@ if [[ -v CNEST_COMPLETION ]]; then
   exit 0
 fi
 
-if [[ $# -lt 1 || ! -v USER ]]; then
+print_usage() {
   COMMAND=$'\u001b[1m'$(basename "$0")$'\u001b[0m'
   printf "Usage:\n  [USER=user] $COMMAND image [podman_create_options ...]\n\n"
   IMAGES=$(print_local_images)
@@ -18,15 +18,23 @@ if [[ $# -lt 1 || ! -v USER ]]; then
     printf "Locally stored images:\n  ${IMAGES//$'\n'/$'\n'  }\n"
   fi
   exit 2
+}
+
+if [[ $# -lt 1 || ! -v USER ]]; then
+  print_usage
 fi
 
 IMAGE=$1
 shift
+if [[ $IMAGE == -* ]]; then
+  printf "Bad input:
+  An image reference should be the first argument, not option '$IMAGE'\n\n"
+  print_usage
+fi
 
-CONTAINER_ID=$(podman create \
+CONTAINER_ID=$(set -o xtrace
+    podman create \
     --userns=keep-id \
-    --uts=private \
-    --cgroups=enabled \
     --pid=host \
     --user=root \
     "$@" \
@@ -37,21 +45,26 @@ podman inspect $CONTAINER_ID --format={{.Name}}
 
 podman start $CONTAINER_ID > /dev/null
 
-podman exec -i --user root $CONTAINER_ID \
+exit_status=0
+
+{ podman exec -i --user root $CONTAINER_ID \
   bash -s $USER <<'EOF'
     set -o nounset
     mkdir --parents /home/$1
     chown $1: /home/$1
+    chmod 755 /home/$1
     usermod --home /home/$1 $1
     usermod --append --groups sudo $1 2> /dev/null \
       || usermod --append --groups wheel $1
     passwd --delete $1 > /dev/null
 EOF
+} || exit_status=1
 
-podman exec --user $USER $CONTAINER_ID \
+{ podman exec --user $USER $CONTAINER_ID \
   cp --recursive --preserve --no-clobber /etc/skel/. /home/$USER
+} || exit_status=1
 
-podman exec -i --user root $CONTAINER_ID \
+{ podman exec -i --user root $CONTAINER_ID \
   cp /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
     if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
         NESTSIGN=$(cat /etc/nestsign)
@@ -65,8 +78,12 @@ podman exec -i --user root $CONTAINER_ID \
         esac
     fi
 EOF
+} || exit_status=1
 
-echo 📦 | podman exec -i --user root $CONTAINER_ID \
+{ echo 📦 | podman exec -i --user root $CONTAINER_ID \
   cp --no-clobber --no-preserve=all /dev/stdin /etc/nestsign
+} || exit_status=1
 
-podman stop $CONTAINER_ID > /dev/null
+podman stop $CONTAINER_ID > /dev/null || exit_status=1
+
+exit $exit_status
