@@ -38,6 +38,7 @@ fi
 
 CIDFILE=$(mktemp)
 (set -o xtrace
+rm $CIDFILE  # podman 3.3 is not happy with existing empty cidfile
 podman create \
     --cidfile=$CIDFILE \
     --userns=keep-id \

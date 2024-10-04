@@ -1,5 +1,5 @@
 Name: cnest
-Version: 2.0
+Version: 2.1
 Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
@@ -32,12 +32,14 @@ to be:
 install -d %{buildroot}%{_bindir}
 install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/cnest-ls bin/create-cnest
 install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest
+ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 
 %files
 %{_bindir}/cnest
 %{_bindir}/cnest-ls
 %{_bindir}/create-cnest
 %{bash_completions_dir}/cnest
+%{bash_completions_dir}/create-cnest
 
 %doc README.md
 %license LICENSE
