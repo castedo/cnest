@@ -6,13 +6,13 @@ Installation
 </a>
 
 Please [email me](mailto:castedo@castedo.com) if you start using `cnest` or
-`create-cnest` and want backwards compatibility maintained.
+`create-cnest` and want backward compatibility maintained.
 
 
-RHEL & Fedora
--------------
+Fedora, CentOS & RHELatives 
+---------------------------
 
-If you use RHEL or Fedora, you can
+If you use RHEL, CentOS, or Fedora, you can
 
 ```text
 dnf copr enable castedo/cnest

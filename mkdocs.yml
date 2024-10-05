@@ -1,21 +1,24 @@
-site_name: The Cnest Guide to Nest Containers
+site_name: A Minimalist's Guide to Persistent Personalized Containers
 site_url: !ENV READTHEDOCS_CANONICAL_URL
 repo_url: https://github.com/castedo/cnest
 edit_uri: edit/main/docs
 theme:
-  name: readthedocs
+  name: material
   features:
     - content.action.edit
+    - content.code.copy
     - navigation.footer
+markdown_extensions:
+  - admonition
 nav:
-  - Home: index.md
-  - INTRODUCTION:
-    - what-are-nest-containers.md
-    - other-tools.md
-  - HOW-TO GUIDES:
-    - how-to-share-partial-home.md
-  - THE CNEST PACKAGE:
+  - Introduction: index.md
+  - podman.md
+  - The Cnest Package:
     - install.md
     - cnest-tools.md
     - tips.md
-    - conclusions.md
+  - How-To Guides:
+    - how-to-share-partial-home.md
+  - temp-containers.md
+  - other-tools.md
+  - history.md

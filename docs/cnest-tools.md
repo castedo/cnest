@@ -3,8 +3,8 @@ Tools in the `cnest` package
 
 Primary tools:
 
-* `cnest` for entering [nest containers](what-are-nest-containers.md)
-* `create-cnest` for creating [nest containers](what-are-nest-containers.md)
+* `cnest` for entering persistent containers
+* `create-cnest` for creating persistent containers
 
 The `cnest` package includes bash auto-completions for both tools.
 
