@@ -19,3 +19,7 @@ personalized choice of Linux distribution and installed software packages, a per
 container will be a convenient choice.
 You will have the option to quickly try out and install software in an isolated
 environment and have that environment persist even after rebooting your system.
+
+Once you have Podman installed, you can use simple wrapper scripts to (a) create
+persistent containers and then (b) run interactive shell sessions inside them.
+Follow [this guide with `create-cnest` and `cnest` as examples](install.md).

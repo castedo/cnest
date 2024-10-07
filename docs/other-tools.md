@@ -53,8 +53,10 @@ Isolation of macOS and Windows software
 ---------------------------------------
 
 Most software development ecosystems evolve their own environment isolation solutions.
-Usually, they are language-specific, such as [conda](https://conda.io/) environments and
-Python's [virtualenv](https://virtualenv.pypa.io). One benefit of these isolation
+Usually, they are language-specific, such as Python's
+[virtualenv](https://virtualenv.pypa.io) environments, or started out that way, such as
+[conda](https://conda.io/), but now support many languages.
+One benefit of these isolation
 systems is they are cross-platform and can run natively on Windows or macOS without Linux.
 In contrast, Podman uses the
 [OS-level virtualization](https://en.wikipedia.org/wiki/OS-level_virtualization) 
