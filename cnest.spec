@@ -9,7 +9,7 @@ Source0: %{name}-%{version}.tar.gz
 
 BuildArch: noarch
 Requires: bash, coreutils
-Requires: podman
+Requires: podman >= 4.4
 
 # macro %{bash_completions_dir} is defined by the epel-rpm-macros package to
 # %{_datadir}/bash-completion/completions

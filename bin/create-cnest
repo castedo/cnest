@@ -36,12 +36,13 @@ if [[ ! -v USER ]]; then
   USER=$(id -un)
 fi
 
+CUID=48222 # UID/GID in container for host user
 CIDFILE=$(mktemp)
 (set -o xtrace
-rm $CIDFILE  # podman 3.3 is not happy with existing empty cidfile
-podman create \
+ podman run \
+    --detach \
     --cidfile=$CIDFILE \
-    --userns=keep-id \
+    --userns=keep-id:uid=$CUID,gid=$CUID \
     --init \
     --user=root \
     "$@" \
@@ -51,26 +52,22 @@ CONTAINER_ID=$(< $CIDFILE)
 
 podman inspect $CONTAINER_ID --format={{.Name}}
 
-podman start $CONTAINER_ID > /dev/null
-
 exit_status=0
 
 { podman exec -i --user root $CONTAINER_ID \
-  bash -s $USER <<'EOF'
+  bash -s $USER $CUID <<'EOF'
     set -o nounset
+    groupadd --gid $2 $1
+    useradd --uid $2 --gid $2 --no-create-home --comment $1 --password '' $1
     mkdir --parents /home/$1
     chown $1: /home/$1
     chmod 755 /home/$1
-    usermod --home /home/$1 $1
-    usermod --append --groups sudo $1 2> /dev/null \
-      || usermod --append --groups wheel $1
-    passwd --delete $1 > /dev/null
 EOF
 } || exit_status=1
 
 { podman exec --user $USER $CONTAINER_ID \
   cp --recursive --preserve --no-clobber /etc/skel/. /home/$USER
-} || exit_status=1
+} || true  # ignore unreliable no-clobber exit status
 
 { podman exec -i --user root $CONTAINER_ID \
   cp --no-preserve=all /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
@@ -88,8 +85,10 @@ EOF
 EOF
 } || exit_status=1
 
-{ echo 📦 | podman exec -i --user root $CONTAINER_ID \
-  cp --no-clobber --no-preserve=all /dev/stdin /etc/nestsign
+{ podman exec -i --user root $CONTAINER_ID \
+  bash <<'EOF'
+    [ -f /etc/nestsign ] || echo 📦 > /etc/nestsign
+EOF
 } || exit_status=1
 
 podman stop $CONTAINER_ID > /dev/null || exit_status=1
