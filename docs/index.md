@@ -1,5 +1,5 @@
-A Minimalist's Guide to Persistent Personalized Containers
-==========================================================
+The Cnest Guide to Personal Multisession Containers
+===================================================
 
 <img src="_static/bird-nest-260px.png"
  style="height: 192px; float:right;"
@@ -9,7 +9,7 @@ Why this guide
 --------------
 
 This guide will show you how to use [Podman](https://podman.io) and small wrapper bash
-scripts to create personalized and persistent Linux containers for interactive shell
+scripts to create personalized Linux containers for concurrent interactive shell
 sessions.
 Before getting started, consider some reasons you might, or might not, want to use this
 guide.

@@ -1,4 +1,4 @@
-site_name: A Minimalist's Guide to Persistent Personalized Containers
+site_name: The Cnest Guide to Personal Multisession Containers
 site_url: !ENV READTHEDOCS_CANONICAL_URL
 repo_url: https://github.com/castedo/cnest
 edit_uri: edit/main/docs
@@ -6,15 +6,16 @@ theme:
   name: material
   features:
     - content.action.edit
-    - content.code.copy
     - navigation.footer
 markdown_extensions:
   - admonition
 nav:
   - Introduction: index.md
   - podman.md
+  - install.md
+  - Tutorials:
+    - Different Distro: tutorial/diff-distro.md
   - The Cnest Package:
-    - install.md
     - cnest-tools.md
     - tips.md
   - How-To Guides:
