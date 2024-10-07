@@ -15,11 +15,9 @@ nav:
   - install.md
   - Tutorials:
     - Different Distro: tutorial/diff-distro.md
-  - The Cnest Package:
-    - cnest-tools.md
-    - tips.md
-  - How-To Guides:
-    - how-to-share-partial-home.md
+    - Limited Sharing: tutorial/limited-sharing.md
+  - cnest-tools.md
+  - tips.md
   - temp-containers.md
   - other-tools.md
   - history.md

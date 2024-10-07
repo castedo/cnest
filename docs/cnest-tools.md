@@ -16,11 +16,11 @@ cnest
 
 * Unlike `podman exec`, you can omit the command to exec, and it will default to
   executing either the command `/bin/bash --login`.
-* It will stop the container if there are no more podman exec sessions (of which
-  cnest sessions are one case).
+* It will stop the container if there are no more `podman exec` sessions (of which
+  `cnest` sessions are one case).
 * It will automatically keep you in your current directory if
   your current directory is also shared with the nest container.
-* Look at the podman exec arguments in
+* Look at the `podman exec` arguments in
   [the script](https://github.com/castedo/cnest/blob/main/bin/cnest)
   for the rest of the niceties.
 
@@ -38,16 +38,13 @@ A container does not have to be created with `create-cnest`.
 create-cnest
 ------------
 
-`create-cnest` is for creating a container. It's mostly just a wrapper around
-`podman create`.
-
-Some of the features enabled by `create-cnest` are:
-
-* Adding a symbol and container name to the prompt inside the container.
-* Adding the user to the `sudo` or `wheel` group inside the container.
+`create-cnest` is for creating a container.
+It's mostly just a wrapper around `podman run`.
+A bonus feature enabled by `create-cnest` is adding a symbol and container name to the
+prompt inside the container.
 
 
 ### Image requirements for `create-cnest`
 
-* Include the mandatory POSIX commands `cp`, `chmod`, `id`, `mkdir`, `sleep`.
-* The `passwd` and `usermod` commands (widely included in most distros).
+* Mandatory POSIX commands: `cp`, `chown`, `chmod`, `mkdir`, `sleep`
+* `bash`, `useradd`, and `groupadd` (widely included in most distros)
