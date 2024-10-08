@@ -18,9 +18,9 @@ guide.
 
 * You work in interactive shell sessions with CLI software.
 * You want to be able to install software in isolated environments without interfering
-  with your host computer.
+  with your host operating system.
 * You want to use CLI software on a variety of Linux distributions.
-* You like to control what access your isolated environment has to your system.
+* You like to control what access your isolated environments have to your system.
 * You want to have a lot of control over how you set up and personalize your setup.
 * You sometimes write small bash scripts (or similar).
 

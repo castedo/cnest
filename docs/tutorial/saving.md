@@ -75,6 +75,11 @@ create-cnest localhost/moonix --network=host -v=$HOME/shr:$HOME/shr --name=mybox
 [pat@laptop ~]$ 
 ```
 
+Note that the `--network=host` option has been added so that the container shares the
+same network interface as the host system. This will enable functionality such as D-Bus,
+Wayland, and connections to localhost to work with the container.
+
+
 ### 4. Recreate your container in the future
 
 In the future, you can recreate your container using your personal Bash script.

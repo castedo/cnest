@@ -1,3 +1,5 @@
+<!-- copybreak off -->
+
 Start Tutorial
 ==============
 
@@ -105,11 +107,11 @@ hello
 📦zen_franklin[pat@999d06826203 shr]$ cd ..
 📦zen_franklin[pat@999d06826203 ~]$ ls -la
 total 12
-drwxr-xr-x. 2 pat pat   57 Sep 11 14:07 .
+drwxr-xr-x. 2 pat     pat       57 Sep 11 14:07 .
 drwxr-xr-x. 1 root    root      21 Oct  7 19:48 ..
--rw-r--r--. 1 pat pat  220 Jan  6  2022 .bash_logout
--rw-r--r--. 1 pat pat 3771 Jan  6  2022 .bashrc
--rw-r--r--. 1 pat pat  807 Jan  6  2022 .profile
+-rw-r--r--. 1 pat     pat      220 Jan  6  2022 .bash_logout
+-rw-r--r--. 1 pat     pat     3771 Jan  6  2022 .bashrc
+-rw-r--r--. 1 pat     pat      807 Jan  6  2022 .profile
 ```
 
 You can see that your home directory inside the container is different
@@ -122,11 +124,11 @@ Now, let's look at all the processes running in your new container.
 
 ```
 (📦zen_franklin)pat@333e015f56a7:~$ ps -efH
-UID          PID    PPID  C STIME TTY          TIME CMD
-pat        5       0  0 19:48 pts/0    00:00:00 /bin/bash --login
-pat       15       5  0 20:14 pts/0    00:00:00   ps -efH
-root           1       0  0 19:48 ?        00:00:00 /run/podman-init -- sleep inf
-root           2       1  0 19:48 ?        00:00:00   sleep inf
+UID       PID    PPID  C STIME TTY          TIME CMD
+pat         5       0  0 19:48 pts/0    00:00:00 /bin/bash --login
+pat        15       5  0 20:14 pts/0    00:00:00   ps -efH
+root        1       0  0 19:48 ?        00:00:00 /run/podman-init -- sleep inf
+root        2       1  0 19:48 ?        00:00:00   sleep inf
 (📦zen_franklin)pat@333e015f56a7:~$ top
 ```
 
@@ -140,40 +142,18 @@ Let's run `top` to see live updates of the process list.
 ```
 
 You will now see `top` running and showing ongoing updates of all the processes.
-Note the PID (process ID) of `top` itself.
-The next step will assume the PID is `38`,
-but you should use the actual PID you see reported by `top`.
 
 
-### 6. Kill `top` from a second session
+<!-- copybreak on -->
 
-Now, open a new second terminal window and enter the container as a second session.
+### 6. Install software for the short-term
 
-```
-[pat@laptop ~]$ cnest zen_franklin
-'/home/pat' is a different directory in the container
-(📦zen_franklin)pat@333e015f56a7:~$ 
-```
+Now, open a new second terminal window so we can install software as the "fake" root
+*inside the container* while still having a session in your first terminal window.
 
-Notice that a new `bash` process is reported by `top` in the first terminal window.
-
-Assuming the PID for `top` is `38`, let's kill it and then exit this second
-session.
-
-```
-(📦zen_franklin)pat@333e015f56a7:~$ kill 38
-(📦zen_franklin)pat@333e015f56a7:~$ exit
-logout
-[pat@laptop ~]$ 
-```
-
-We now see that the `top` process in the first session has been terminated.
-
-
-### 7. Install software for the short-term
-
-From the same second terminal window, we can install software as the "fake" root *inside
-the container* while still having a session in your first terminal window.
+As you run these commands from a second terminal window, watch the output of `top` in
+the first window. You should see a new process as root appear and disappear as the
+following software is installed.
 
 ```
 [pat@laptop ~]$ podman exec zen_franklin apt-get update
@@ -184,6 +164,10 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 All packages are up to date.
+[pat@laptop ~]$ 
+```
+
+```
 [pat@laptop ~]$ podman exec zen_franklin apt-get install --yes cowsay
 Reading package lists...
 ...
@@ -200,10 +184,16 @@ Processing triggers for libc-bin (2.35-0ubuntu3.8) ...
 [pat@laptop ~]$ 
 ```
 
-Returning to the first terminal window, you can now use this newly installed
-essential piece of software.
+
+### 7. Try out the new software
+
+Still in your second terminal window, you can now enter the container as a second
+session and use this newly installed essential piece of software while `top` is still
+running in the first session.
 
 ```
+[pat@laptop ~]$ cnest zen_franklin
+'/home/castedo' is a different directory in the container
 (📦zen_franklin)pat@999d06826203:~$ /usr/games/cowsay moooonix
  __________
 < moooonix >
@@ -216,9 +206,7 @@ essential piece of software.
 (📦zen_franklin)pat@999d06826203:~$ 
 ```
 
-
-
-
+<!-- copybreak off -->
 
 ### Conclusion
 
