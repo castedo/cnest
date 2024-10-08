@@ -1,6 +1,6 @@
 Name: cnest
 Version: 2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -45,6 +45,9 @@ ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 %license LICENSE
 
 %changelog
+* Tue Oct 08 2024 Castedo Ellerman <castedo@castedo.com> 2.1-2
+- avoid UID collisions with image; no add sudo group (castedo@castedo.com)
+- fix completion load delay (castedo@castedo.com)
 * Thu Oct 03 2024 Castedo Ellerman <castedo@castedo.com> 2.0-1
 - drop Python code, create-nest and other obsolete files (castedo@castedo.com)
 - remove obsolete cnest-entry feature (castedo@castedo.com)
