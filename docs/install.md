@@ -3,13 +3,13 @@ Installation
 
 The Bash scripts [`cnest`](https://github.com/castedo/cnest/tree/main/bin/cnest)
 and [`create-cnest`](https://github.com/castedo/cnest/tree/main/bin/create-cnest)
-are independent scripts under 100 lines.
+are independent small scripts of about 70 and 100 lines, respectively.
 You can use them as-is or as examples for creating your own scripts calling `podman`.
 
 Regardless, the quickest way to follow this guide and its tutorials is to install
 `cnest` and `create-cnest` on your system.
 Once you have `create-cnest` and `cnest` installed on your machine,
-you're ready to [start a simple tutorial on how to use them](create-cnest-tutorial.md).
+you're ready to [start a simple tutorial on how to use them](tutorial/diff-distro.md).
 
 ## Install option 1: Just copy the Bash scripts
 

@@ -19,8 +19,8 @@ Prerequisites
 -------------
 
 * Linux (tested on RHEL 9 and Fedora 40, but some other distros should work)
-* [Podman](podman.md) 4.4+ (`docker` might work as well)
-* [`create-cnest` and `cnest`](install.md)
+* [Podman](../podman.md) 4.4+ (`docker` might work as well)
+* [`create-cnest` and `cnest`](../install.md)
 
 
 Steps
