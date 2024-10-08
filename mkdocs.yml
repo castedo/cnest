@@ -14,8 +14,8 @@ nav:
   - podman.md
   - install.md
   - Tutorials:
-    - Different Distro: tutorial/diff-distro.md
-    - Limited Sharing: tutorial/limited-sharing.md
+    - Start: tutorial/start.md
+    - Saving Personalizations: tutorial/saving.md
   - cnest-tools.md
   - tips.md
   - temp-containers.md
