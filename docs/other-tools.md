@@ -45,8 +45,8 @@ automatically work vs running software in a contained, isolated system.
 !!! tip "Author suggestion"
     When I want to access my full desktop environment from the shell command line, I
     don't run it in a container; I just run it in a regular shell session from
-    a regular terminal window. I only run software that does NOT need full desktop
-    access in OCI containers.
+    a regular terminal window. I only run software in OCI containers that does NOT need
+    full desktop access.
 
 
 Isolation of macOS and Windows software

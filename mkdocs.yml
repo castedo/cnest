@@ -17,8 +17,12 @@ nav:
   - Tutorials:
     - Start: tutorial/start.md
     - Saving Personalizations: tutorial/saving.md
-  - cnest-tools.md
+  - How-To Guides:
+    - Enable Sudo: howto/sudo.md
+    - Stow home config file: howto/stow.md
+  - caveats.md
   - tips.md
+  - cnest-tools.md
   - temp-containers.md
   - other-tools.md
   - history.md
