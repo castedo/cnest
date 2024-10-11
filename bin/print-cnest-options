@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+set -o errexit -o nounset
+
+OPTIONSETS_DIR=${OPTIONSETS_DIR:-~/.config/cnest/options}
+
+if [[ -z "$@" ]]; then
+     printf "Usage:\n  "$(basename "$0")" optionsetname [optionsetname ...]\n"
+     printf "Option sets in $OPTIONSETS_DIR:\n"
+     ls --hide="_*" $OPTIONSETS_DIR
+    exit 1
+fi
+
+for F in "$@"; do
+  cat $OPTIONSETS_DIR/$F | envsubst
+done

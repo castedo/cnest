@@ -1,0 +1,3 @@
+--hostname=$CONTAINER_NAME
+--network-alias=$CONTAINER_NAME
+--network=bridge
