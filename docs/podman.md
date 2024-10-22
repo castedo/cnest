@@ -5,7 +5,7 @@ To follow this guide, you need to have [Podman](https://podman.io) installed.
 
 !!! danger
     If you use SELinux, you want to disable SELinux separation for containers that
-    should have access files under your home directory.
+    should have access to files under your home directory.
     See the [SELinux section](#selinux) below.
 
 !!! tip

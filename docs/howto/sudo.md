@@ -1,4 +1,4 @@
-How-To Enable Sudo in a Container
+How to Enable Sudo in a Container
 =================================
 
 Rather than running commands from the host system such as

@@ -70,7 +70,10 @@ We will record this in a personal Bash script file.
 
 ```
 [pat@laptop ~]$ cat > create-mybox.sh
-create-cnest localhost/moonix --network=host -v=$HOME/shr:$HOME/shr --name=mybox
+create-cnest localhost/moonix \
+ --name=mybox \
+ -v=$HOME/shr:$HOME/shr \
+ --network=host --uts=host --add-host=$HOSTNAME:127.0.0.1
 ^D
 [pat@laptop ~]$ 
 ```

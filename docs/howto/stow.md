@@ -1,4 +1,4 @@
-How-To stow home config files
+How to Stow Home Config Files
 =============================
 
 [GNU Stow](https://www.gnu.org/software/stow/) is a nice tool for making files
