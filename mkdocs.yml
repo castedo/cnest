@@ -20,6 +20,7 @@ nav:
   - How-To Guides:
     - Enable Sudo: howto/sudo.md
     - Stow home config file: howto/stow.md
+    - Enable a GUI: howto/gui.md
     - Enable Ping: howto/ping.md
   - caveats.md
   - tips.md
