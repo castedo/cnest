@@ -1,9 +1,7 @@
-FROM quay.io/podman/stable
+ARG PODMAN_IMG
+FROM $PODMAN_IMG
+ARG RPM=cnest
 
-RUN yum -y install 'dnf-command(copr)'
-RUN yum -y copr enable castedo/cnest
-
-USER podman
-RUN podman pull docker.io/debian
-
-USER root
+RUN dnf -y install 'dnf-command(copr)'
+RUN dnf -y copr enable castedo/cnest
+RUN dnf -y install $RPM
