@@ -36,21 +36,61 @@ if [[ ! -v USER ]]; then
   USER=$(id -un)
 fi
 
+TMPDIR=$(mktemp -d) || exit 1
+trap 'rm -rf "$TMPDIR"' EXIT
+
+CONTAINER_CMD="/run/await-exits"
 CUID=48222 # UID/GID in container for host user
-CIDFILE=$(mktemp)
 (set -o xtrace
- podman run \
-    --detach \
-    --cidfile=$CIDFILE \
+ podman create \
+    --cidfile=$TMPDIR/cid \
     --userns=keep-id:uid=$CUID,gid=$CUID \
     --init \
     --user=root \
     "$@" \
     $IMAGE \
-    sleep inf)
-CONTAINER_ID=$(< $CIDFILE)
+    $CONTAINER_CMD)
+CONTAINER_ID=$(< $TMPDIR/cid)
 
 podman inspect $CONTAINER_ID --format={{.Name}}
+
+TMP=$TMPDIR/cmd.sh
+cat > $TMP <<'EOF'
+#!/usr/bin/bash
+set -o errexit -o nounset
+shopt -s nullglob
+sleep 3
+cd /proc
+while true; do
+    for PID in [0-9]*; do
+        if [[ $PID -ne $BASHPID && $PID -ne $PPID ]]; then
+            tail --pid=$PID -f /dev/null || true
+            continue 2
+        fi
+    done
+    exit
+done
+EOF
+chmod +x $TMP
+podman cp $TMP $CONTAINER_ID:$CONTAINER_CMD
+
+TMP=$TMPDIR/nestprompt.sh
+cat > $TMP <<'EOF'
+if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
+    NESTSIGN=$(cat /etc/nestsign)
+    case "$PS1" in
+        '\s-\v\$ ') # default bash prompt
+            PS1="$NESTSIGN$CONTAINER_NAME[\u@\h \W]\\$ " ;;
+        *debian_chroot*)
+            debian_chroot=$NESTSIGN$CONTAINER_NAME ;;
+        [*)
+            PS1="$NESTSIGN$CONTAINER_NAME$PS1" ;;
+    esac
+fi
+EOF
+podman cp $TMP $CONTAINER_ID:/etc/profile.d/nestprompt.sh
+
+podman start $CONTAINER_ID
 
 exit_status=0
 
@@ -70,27 +110,9 @@ EOF
 } || true  # ignore unreliable no-clobber exit status
 
 { podman exec -i --user root $CONTAINER_ID \
-  cp --no-preserve=all /dev/stdin /etc/profile.d/nestprompt.sh <<'EOF'
-    if [ -n "$PS1" ] && [ -r /etc/nestsign ]; then
-        NESTSIGN=$(cat /etc/nestsign)
-        case "$PS1" in
-            '\s-\v\$ ') # default bash prompt
-                PS1="$NESTSIGN$CONTAINER_NAME[\u@\h \W]\\$ " ;;
-            *debian_chroot*)
-                debian_chroot=$NESTSIGN$CONTAINER_NAME ;;
-            [*)
-                PS1="$NESTSIGN$CONTAINER_NAME$PS1" ;;
-        esac
-    fi
-EOF
-} || exit_status=1
-
-{ podman exec -i --user root $CONTAINER_ID \
   bash <<'EOF'
     [ -f /etc/nestsign ] || echo 📦 > /etc/nestsign
 EOF
 } || exit_status=1
-
-podman stop $CONTAINER_ID > /dev/null || exit_status=1
 
 exit $exit_status

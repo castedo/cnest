@@ -45,6 +45,9 @@ ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 
 %changelog
 * Sat Nov 14 2026 Castedo Ellerman <castedo@castedo.com> 3.1
+  - cnest no longer calls podman stop upon zero exec sessions
+  - create-cnest creates /run/await-exits script inside new container
+  - cnest add env var COLORTERM
   - remove cnest-ls
 * Tue Oct 08 2024 Castedo Ellerman <castedo@castedo.com> 2.1-2
 - avoid UID collisions with image; no add sudo group (castedo@castedo.com)

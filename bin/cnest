@@ -48,11 +48,10 @@ else
   echo \'$PWD\' does not exist in the container
 fi
 
-set +o errexit
-
 podman exec -it \
   -e LANG \
   -e TERM \
+  -e COLORTERM \
   -e DISPLAY \
   -e CONTAINER_NAME=$CONTAINER \
   --detach-keys="" \
@@ -60,12 +59,3 @@ podman exec -it \
   --workdir "$WORKDIR" \
   $CONTAINER \
   $COMMAND
-
-STATUS=$?
-
-NUM_EXEC=$(podman container inspect --format "{{len .ExecIDs}}" $CONTAINER)
-if [[ $NUM_EXEC -eq 0 ]]; then
-  podman stop $CONTAINER
-fi
-
-exit $STATUS
