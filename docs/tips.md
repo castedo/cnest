@@ -7,15 +7,6 @@ In addition to the tips and tricks on this page, there are the following how-to 
 * [How-To Stow in a Container](howto/stow.md)
 
 
-`cnest-ls`
-----------
-
-As an alternative to running `podman ps -a`, you might prefer running the script
-[`cnest-ls`](https://github.com/castedo/cnest/tree/main/bin/cnest-ls).
-It is included with the `cnest` RPM package. But it's also short and simple, so you
-might prefer making your own customized copy.
-
-
 `create-cnest` filenames and tab autocompletion
 -----------------------------------------------
 

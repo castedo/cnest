@@ -1,6 +1,6 @@
 Name: cnest
-Version: 2.1
-Release: 2%{?dist}
+Version: 3.0
+Release: 0%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
@@ -30,13 +30,12 @@ to be:
 
 %install
 install -d %{buildroot}%{_bindir}
-install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/cnest-ls bin/create-cnest
+install -pm 0755 -t %{buildroot}%{_bindir} bin/cnest bin/create-cnest
 install -Dpm 0644 -t %{buildroot}%{bash_completions_dir} completion/cnest
 ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 
 %files
 %{_bindir}/cnest
-%{_bindir}/cnest-ls
 %{_bindir}/create-cnest
 %{bash_completions_dir}/cnest
 %{bash_completions_dir}/create-cnest
@@ -45,6 +44,8 @@ ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 %license LICENSE
 
 %changelog
+* Sat Nov 14 2026 Castedo Ellerman <castedo@castedo.com> 3.1
+  - remove cnest-ls
 * Tue Oct 08 2024 Castedo Ellerman <castedo@castedo.com> 2.1-2
 - avoid UID collisions with image; no add sudo group (castedo@castedo.com)
 - fix completion load delay (castedo@castedo.com)
