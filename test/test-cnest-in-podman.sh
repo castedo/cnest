@@ -12,9 +12,12 @@ export NEST_IMAGES="
 docker.io/debian:bookworm
 docker.io/debian:trixie
 docker.io/ubuntu:jammy
-docker.io/ubuntu:oracular
-registry.fedoraproject.org/fedora:40
-registry.fedoraproject.org/fedora:41
+docker.io/ubuntu:noble
+docker.io/ubuntu:resolute
+docker.io/ubuntu:stonking
+registry.fedoraproject.org/fedora:43
+registry.fedoraproject.org/fedora:44
+registry.fedoraproject.org/fedora:45
 "
 
 for I in $NEST_IMAGES; do
@@ -24,7 +27,7 @@ for I in $NEST_IMAGES; do
 done
 
 PODMAN_IMAGES="
-quay.io/podman/stable:v5.2.3
+quay.io/podman/stable:v5.8.9
 "
 
 set -o xtrace
