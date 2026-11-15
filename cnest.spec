@@ -1,5 +1,5 @@
 Name: cnest
-Version: 3.0
+Version: 3.1
 Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
@@ -46,6 +46,8 @@ ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 %license LICENSE
 
 %changelog
+* Sun Nov 15 2026 Castedo Ellerman <castedo@castedo.com> 3.1
+  - remove cnest completion filter on container command
 * Sat Nov 14 2026 Castedo Ellerman <castedo@castedo.com> 3.0
   - cnest no longer calls podman stop upon zero exec sessions
   - create-cnest creates /run/await-exits script inside new container

@@ -2,7 +2,7 @@
 set -o errexit -o pipefail -o nounset
 
 print_possible_containers() {
-  podman ps --all --format '{{.Names}} {{.Command}}' | awk '$2 == "sleep" { print $1 }'
+  podman ps --all --format '{{.Names}}'
 }
 
 if [[ -v CNEST_COMPLETION ]]; then
