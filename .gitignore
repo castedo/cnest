@@ -1,6 +1,6 @@
 .*.swp
 *.pyc
 *.egg-info/
-_build/
+_rpmbuild/
 nohup.out
 site/

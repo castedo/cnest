@@ -1,18 +1,20 @@
 Name: cnest
 Version: 3.0
-Release: 0%{?dist}
+Release: 1%{?dist}
 Summary: Simple scripts for personalized persistent controlled containers
 
 License: MIT
 URL: https://github.com/castedo/cnest
+%if %{undefined ignore_source}
 Source0: %{name}-%{version}.tar.gz
+%endif
 
 BuildArch: noarch
 Requires: bash, coreutils
 Requires: podman >= 4.4
 
-# macro %{bash_completions_dir} is defined by the epel-rpm-macros package to
-# %{_datadir}/bash-completion/completions
+# macro % {bash_completions_dir} is defined by the epel-rpm-macros package to
+# % {_datadir}/bash-completion/completions
 
 %description
 Simple scripts for personalized persistent controlled containers designed
@@ -44,7 +46,7 @@ ln -s cnest %{buildroot}%{bash_completions_dir}/create-cnest
 %license LICENSE
 
 %changelog
-* Sat Nov 14 2026 Castedo Ellerman <castedo@castedo.com> 3.1
+* Sat Nov 14 2026 Castedo Ellerman <castedo@castedo.com> 3.0
   - cnest no longer calls podman stop upon zero exec sessions
   - create-cnest creates /run/await-exits script inside new container
   - cnest add env var COLORTERM
